@@ -10,16 +10,17 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Material+Icons">
   </head>
-  <body>
+  <body data='{{ page_data }}'>
     <noscript>
       <strong>We're sorry but frontend doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
-<div id="app">
-     <app></app>
- </div>
- {% render_bundle 'fifa_app' %}
- {% render_bundle 'chunk-vendors' %}
-<!-- built files will be auto injected -->
+
+    <div id="app">
+        <app></app>
+    </div>
+    {% render_bundle 'fifa_app' %}
+    {% render_bundle 'chunk-vendors' %}
+    <!-- built files will be auto injected -->
   
 </body>
 </html>

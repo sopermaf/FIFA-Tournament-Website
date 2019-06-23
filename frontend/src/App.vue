@@ -20,7 +20,7 @@
     </v-toolbar>
 
     <v-content>
-      
+      <LeagueTable />
     </v-content>
 
     <v-footer height="auto" color="primary lighten-1">
@@ -34,15 +34,17 @@
 </template>
 
 <script>
+import LeagueTable from './components/LeagueTable.vue';
 
 export default {
   name: 'App',
   components: {
+    LeagueTable,
   },
   data () {
     return {
       //
     }
-  }
+  },
 }
 </script>
