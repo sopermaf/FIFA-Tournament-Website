@@ -5,7 +5,10 @@ import json
 
 
 def index(request):
-    players = Player.objects.values()
+    players = Player.objects.values('name', 'wins', 
+              'draws', 'losses', 'points', 'goals_scored',
+              'goals_against')
+
     context = {
         "page_data": json.dumps({'players': list(players)}),
     }
