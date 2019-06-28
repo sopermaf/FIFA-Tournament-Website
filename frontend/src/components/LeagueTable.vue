@@ -27,6 +27,11 @@
 
 <script>
 export default {
+  props: {
+    players: {
+      type: Array
+    }
+  },
   data() {
     return {
       headers: [
@@ -43,7 +48,6 @@ export default {
           { text: 'Goals Scored', value: 'goals_scored', sortable: false},
           { text: 'Goals Against', value: 'goals_against', sortable: false},
         ],
-      players: [],
     };
   },
   computed: {
@@ -57,10 +61,6 @@ export default {
       }
       return this.players.sort(compare);
     }
-  },
-  mounted() {
-    this.data = document.body.getAttribute('data');
-    this.players = JSON.parse(this.data)['players'];
   }
 };
 </script>

@@ -1,14 +1,14 @@
 <template>
   <v-app>
     <v-toolbar app>
-      <v-btn flat href="">
-        <span class="mr-2"> Home</span>
-      </v-btn>
-      <v-btn flat href="">
+      <v-btn flat @click="choice = 'LeagueTable'">
         <span class="mr-2"> League Table</span>
       </v-btn>
-      <v-btn flat href="">
-        <span class="mr-2"> Descriptions</span>
+      <v-btn flat @click="choice = 'GoldenBoot'">
+        <span class="mr-2"> Golden Boot</span>
+      </v-btn>
+      <v-btn flat @click="choice = 'GoldenGlove'">
+        <span class="mr-2"> Golden Glove</span>
       </v-btn>
 
       <v-spacer></v-spacer>
@@ -20,7 +20,15 @@
     </v-toolbar>
 
     <v-content>
-      <LeagueTable />
+      <template v-if=" choice == 'LeagueTable'">
+        <LeagueTable :players="players"/>
+      </template>
+      <template v-else-if=" choice == 'GoldenBoot'">
+        <GoldenBoot :players="players"/>
+      </template>
+      <template v-else-if=" choice == 'GoldenGlove'">
+        <GoldenGlove :players="players"/>
+      </template>
     </v-content>
 
     <v-footer height="auto" color="primary lighten-1">
@@ -35,16 +43,25 @@
 
 <script>
 import LeagueTable from './components/LeagueTable.vue';
+import GoldenBoot from './components/GoldenBoot.vue';
+import GoldenGlove from './components/GoldenGlove.vue';
 
 export default {
   name: 'App',
   components: {
     LeagueTable,
+    GoldenBoot,
+    GoldenGlove,
   },
   data () {
     return {
-      //
+      choice: "LeagueTable",
+      players: [],
     }
   },
+  mounted() {
+    this.data = document.body.getAttribute('data');
+    this.players = JSON.parse(this.data)['players'];
+  }
 }
 </script>
