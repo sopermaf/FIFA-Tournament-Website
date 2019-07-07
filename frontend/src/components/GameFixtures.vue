@@ -21,16 +21,19 @@ export default {
   data() {
     return {
       headers: [
-          {
-            text: 'Player',
-            align: 'left',
-            sortable: false,
-            value: 'name'
-          },
-          { text: 'Goals Conceded', value: 'goals_against', sortable: false},
+          { text: 'Team 1', sortable: false, value: 'name'},
+          { text: 'Player 1', sortable: false, value: 'name'},
+          { text: 'Player 1 Goals', sortable: false, value: 'name'},
+          { text: 'Player 2 Goals', sortable: false, value: 'name'},
+          { text: 'Player 2', sortable: false, value: 'name'},
+          { text: 'Team 2', sortable: false, value: 'name'},
         ],
     };
   },
+  mounted() {
+    this.data = document.body.getAttribute('data');
+    this.players = JSON.parse(this.data)['fixtures'];
+  }
 };
 </script>
 

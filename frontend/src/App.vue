@@ -1,14 +1,26 @@
 <template>
   <v-app>
     <v-toolbar app>
-      <v-btn flat @click="choice = 'LeagueTable'">
-        <span class="mr-2"> League Table</span>
+      <v-btn flat >
+        <span class="mr-2"> Home </span>
       </v-btn>
-      <v-btn flat @click="choice = 'GoldenBoot'">
-        <span class="mr-2"> Golden Boot</span>
+      
+      <DropDown @choice-update="messageReceived"/>
+
+      <v-btn flat >
+        <span class="mr-2"> Players </span>
       </v-btn>
-      <v-btn flat @click="choice = 'GoldenGlove'">
-        <span class="mr-2"> Golden Glove</span>
+
+      <v-btn flat >
+        <span class="mr-2"> Fixtures & Results </span>
+      </v-btn>
+
+      <v-btn flat >
+        <span class="mr-2"> History </span>
+      </v-btn>
+
+      <v-btn flat >
+        <span class="mr-2"> Shop </span>
       </v-btn>
 
       <v-spacer></v-spacer>
@@ -45,6 +57,7 @@
 import LeagueTable from './components/LeagueTable.vue';
 import GoldenBoot from './components/GoldenBoot.vue';
 import GoldenGlove from './components/GoldenGlove.vue';
+import DropDown from './components/DropDown';
 
 export default {
   name: 'App',
@@ -52,11 +65,17 @@ export default {
     LeagueTable,
     GoldenBoot,
     GoldenGlove,
+    DropDown,
   },
   data () {
     return {
       choice: "LeagueTable",
       players: [],
+    }
+  },
+  methods: {
+    messageReceived(table) {
+        this.choice = table;
     }
   },
   mounted() {

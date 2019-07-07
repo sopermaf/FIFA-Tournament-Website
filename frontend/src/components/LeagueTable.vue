@@ -4,14 +4,18 @@
         <v-flex md9 ma-2>
           <h1>League Table</h1>
         </v-flex>  
-        <v-flex md9 >
+        <v-flex md10 >
             <v-data-table :headers="headers" :items="playersOrdered" item-key="player.id" class="elevation-1">
               <template v-slot:items="props">
+                <td :style="{backgroundColor: (props.item.id < 4 ? 'red' : 'transparent' ) }">
+                  {{ props.index + 1 }}
+                </td>
                 <td>{{ props.item.name }}</td>
                 <td class="text-xs-right">{{ props.item.points }}</td>
                 <td class="text-xs-right">{{ props.item.wins }}</td>
                 <td class="text-xs-right">{{ props.item.draws }}</td>
                 <td class="text-xs-right">{{ props.item.losses }}</td>
+                <td class="text-xs-right">{{ props.item.goals_scored - props.item.goals_against }}</td>
                 <td class="text-xs-right">{{ props.item.goals_scored }}</td>
                 <td class="text-xs-right">{{ props.item.goals_against }}</td>
               </template>
@@ -35,20 +39,19 @@ export default {
   data() {
     return {
       headers: [
-          {
-            text: 'Names',
-            align: 'left',
-            sortable: false,
-            value: 'name'
-          },
+          { text: 'Position', align: 'left', sortable: false},
+          { text: 'Names', align: 'left', sortable: false, value: 'name'},
           { text: 'Points', value: 'points', sortable: false},
           { text: 'Wins', value: 'wins', sortable: false},
           { text: 'Draws', value: 'draws', sortable: false},
           { text: 'Losses', value: 'losses', sortable: false},
+          { text: 'Goal Difference', sortable: false},
           { text: 'Goals Scored', value: 'goals_scored', sortable: false},
           { text: 'Goals Against', value: 'goals_against', sortable: false},
         ],
     };
+  },
+  methods: {
   },
   computed: {
     playersOrdered: function() {

@@ -4,9 +4,10 @@
         <v-flex md9 ma-2>
           <h1>Golden Glove</h1>
         </v-flex>  
-        <v-flex md3 >
+        <v-flex md4 >
             <v-data-table :headers="headers" :items="playersGoldenGlove" item-key="player.id" class="elevation-1">
               <template v-slot:items="props">
+                <td>{{ props.index + 1 }}</td>
                 <td>{{ props.item.name }}</td>
                 <td class="text-xs-right">{{ props.item.goals_against }}</td>
               </template>
@@ -26,12 +27,8 @@ export default {
   data() {
     return {
       headers: [
-          {
-            text: 'Player',
-            align: 'left',
-            sortable: false,
-            value: 'name'
-          },
+          { text: 'Position', align: 'left', sortable: false},
+          { text: 'Player', align: 'left', sortable: false },
           { text: 'Goals Conceded', value: 'goals_against', sortable: false},
         ],
     };
