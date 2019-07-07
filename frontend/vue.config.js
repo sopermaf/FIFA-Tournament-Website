@@ -4,6 +4,10 @@ const pages = {
     'fifa_app': {
         entry: './src/main.js',
         chunks: ['chunk-vendors']
+    },
+    'data_app': {
+        entry: './src/dataEntry.js',
+        chunks: ['chunk-vendors']
     }
 }
 

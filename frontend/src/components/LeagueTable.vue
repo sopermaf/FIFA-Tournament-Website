@@ -7,7 +7,7 @@
         <v-flex md10 >
             <v-data-table :headers="headers" :items="playersOrdered" item-key="player.id" class="elevation-1">
               <template v-slot:items="props">
-                <td :style="{backgroundColor: (props.item.id < 4 ? 'red' : 'transparent' ) }">
+                <td :style="{ backgroundColor: colorRank(props.index) }">
                   {{ props.index + 1 }}
                 </td>
                 <td>{{ props.item.name }}</td>
@@ -21,10 +21,6 @@
               </template>
             </v-data-table>         
         </v-flex>
-
-        <!--<v-flex>
-          {{ playersOrdered }}
-        </v-flex>-->
       </v-layout>
     </v-container>
 </template>
@@ -52,6 +48,11 @@ export default {
     };
   },
   methods: {
+    colorRank(index) {
+      if(index < 4)
+        return "green"
+      else return "red"
+    }
   },
   computed: {
     playersOrdered: function() {

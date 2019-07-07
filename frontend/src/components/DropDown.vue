@@ -2,7 +2,6 @@
   <v-menu offset-y>
     <template v-slot:activator="{ on }">
       <v-btn  v-on="on" flat>
-        <!--<v-icon left>notifications_active</v-icon>-->
         League Standings
       </v-btn>
     </template>
@@ -36,7 +35,6 @@
 <script>
   export default {
     data: () => ({
-        hellowolrd: 0,
     }),
     methods: {
         chooseTable(table) {
