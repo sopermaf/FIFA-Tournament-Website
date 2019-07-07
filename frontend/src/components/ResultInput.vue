@@ -56,6 +56,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
   export default {
     props: {
         players: {
@@ -66,7 +68,8 @@
         match_players: ["Player 1", "Player 2"],
         goals: [0,0],
         response: "",
-        response_color: ""
+        response_color: "",
+        search: "",
     }),
     methods: {
         addResult() {
@@ -79,6 +82,15 @@
                 this.response_color = "red"
                 return;
             }
+            
+            //form the search and make request
+            this.search = '/fifa/input/' + this.match_players[0] + '/' + this.goals[0] + '/'
+            this.search += this.match_players[1] + '/' + this.goals[1] + '/'
+
+            axios.get(this.search).then(response => {
+                //this.candidates = response.data['candidates']
+                console.log(response)
+            })
 
             // inform user
             this.response = "Result Recorded Successfully";
