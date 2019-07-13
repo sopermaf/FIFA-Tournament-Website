@@ -3,10 +3,19 @@ from datetime import datetime as dt
 
 
 # Create your models here.
+class Team(models.Model):
+    name = models.CharField(max_length=200)
+    chosen = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name + ": " + str(self.chosen)
+
+
 class Player(models.Model):
     # descriptions
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=20000, default="", blank=True)
+    teams = models.ManyToManyField(Team)
 
     # statistics
     wins = models.PositiveIntegerField(default=0)
@@ -19,6 +28,12 @@ class Player(models.Model):
     def __str__(self):
         return self.name
 
+    def allTeams(self):
+       return self.teams.all()
+
+    def unusedTeams(self):
+        return self.teams.all().filter(chosen=False)
+
     def calculateGamesPlayed(self):
         return self.wins + self.draws + self.losses
 
@@ -28,17 +43,33 @@ class Player(models.Model):
 
 class FixtureSide(models.Model):
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
-    team = models.CharField(max_length=300)
-    goals = models.PositiveIntegerField(default=None, blank=True)
-    
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, blank=True, null=True)
+    goals = models.PositiveIntegerField(default=None, blank=True, null=True)
+
     def __str__(self):
-        return self.player.name + " - " + self.team + ": " + str(self.goals)
+        return self.player.name
+
+    def updateTeam(self):
+        self.team.chosen = True
+
+    @classmethod
+    def createSide(cls, player, team):
+        team.chosen = True
+        return cls(player=player, team=team, goals=0)
 
 
 class Fixture(models.Model):
-    players = models.ManyToManyField(FixtureSide)
-    data = models.DateTimeField(default=dt.now)
+    fixtureSides = models.ManyToManyField(FixtureSide)
+    date = models.DateTimeField(default=dt.now)
     game_played = models.BooleanField(default=False)
 
     def __str__(self):
-        return str(self.game_played) + ": " + str(self.data)
+        return str(self.game_played) + ": " + str(self.date)
+
+    def listPlayers(self):
+        sides = self.fixtureSides.all()
+        names = []
+        # get the player names
+        for side in sides:
+            names.append(side.player.name)
+        return names
