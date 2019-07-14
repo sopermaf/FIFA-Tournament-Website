@@ -77,7 +77,18 @@ class Fixture(models.Model):
     game_played = models.BooleanField(default=False)
 
     def __str__(self):
-        return str(self.game_played) + ": " + str(self.date)
+        sides = self.fixtureSides.all()
+        info = ""
+
+        if self.game_played:
+            for side in sides:
+                info += side.player.name + " " + str(side.goals) + " "
+            return info
+
+        for side in sides:
+            info += side.player.name + " "
+
+        return str(self.game_played) + ": " + info
 
     def listPlayers(self):
         sides = self.fixtureSides.all()

@@ -11,7 +11,7 @@
         <span class="mr-2" href=""> Players </span>
       </v-btn>
 
-      <v-btn flat >
+      <v-btn flat href="/fifa/fixtures/">
         <span class="mr-2"> Fixtures & Results </span>
       </v-btn>
 
@@ -32,7 +32,7 @@
     </v-toolbar>
 
     <v-content>
-      Hello World
+      <FixturesList />
     </v-content>
 
     <v-footer height="auto" color="primary lighten-1">
@@ -46,10 +46,14 @@
 </template>
 
 <script>
+import FixturesList from './components/FixturesList';
+import DropDown from './components/DropDown';
 
 export default {
   name: 'Fixtures',
   components: {
+    DropDown,
+    FixturesList,
   },
   data () {
     return {

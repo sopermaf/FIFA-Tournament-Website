@@ -11,7 +11,7 @@
         <span class="mr-2" href=""> Players </span>
       </v-btn>
 
-      <v-btn flat >
+      <v-btn flat href="/fifa/fixtures/">
         <span class="mr-2"> Fixtures & Results </span>
       </v-btn>
 

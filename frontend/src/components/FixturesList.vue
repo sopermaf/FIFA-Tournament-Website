@@ -5,10 +5,10 @@
           <h1>Fixtures</h1>
         </v-flex>  
         <v-flex md3 >
-            <v-data-table :headers="headers" :items="players" item-key="fixture.id" class="elevation-1">
+            <v-data-table :headers="headers" :items="fixtures" item-key="fixture.id" class="elevation-1">
               <template v-slot:items="props">
-                <td>{{ props.item.name }}</td>
-                <td class="text-xs-right">{{ props.item.goals_against }}</td>
+                <td>{{ props.item.fixture_sides[0].name}}</td>
+                <td> {{ props.item.fixture_sides[1].name }}</td>
               </template>
             </v-data-table>         
         </v-flex>
@@ -21,18 +21,15 @@ export default {
   data() {
     return {
       headers: [
-          { text: 'Team 1', sortable: false, value: 'name'},
           { text: 'Player 1', sortable: false, value: 'name'},
-          { text: 'Player 1 Goals', sortable: false, value: 'name'},
-          { text: 'Player 2 Goals', sortable: false, value: 'name'},
           { text: 'Player 2', sortable: false, value: 'name'},
-          { text: 'Team 2', sortable: false, value: 'name'},
         ],
+      fixtures: []
     };
   },
   mounted() {
     this.data = document.body.getAttribute('data');
-    this.players = JSON.parse(this.data)['fixtures'];
+    this.fixtures = JSON.parse(this.data)['fixtures'];
   }
 };
 </script>

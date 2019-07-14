@@ -70,6 +70,7 @@ def addFixtureResult(request, player1, goals1, player2, goals2):
     # update Fixture for Result and removal from Fixtures
     found_fixture.game_played = True
     found_fixture.date = datetime.now()
+    found_fixture.save()
 
     for fs in found_fixture.fixtureSides.all():
         if fs.player.name == player1:
