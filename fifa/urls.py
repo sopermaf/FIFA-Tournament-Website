@@ -5,4 +5,5 @@ urlpatterns = [
     path('', views.index),
     path('data/', views.dataEntry),
     path('input/<str:player1>/<int:goals1>/<str:player2>/<int:goals2>/', views.addResult),
+    path('fixtures/', views.viewFixtures)
 ]

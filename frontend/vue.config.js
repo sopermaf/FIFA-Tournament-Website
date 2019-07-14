@@ -8,6 +8,10 @@ const pages = {
     'data_app': {
         entry: './src/dataEntry.js',
         chunks: ['chunk-vendors']
+    },
+    'fixtures_app': {
+        entry: './src/fixtures.js',
+        chunks: ['chunk-vendors']
     }
 }
 

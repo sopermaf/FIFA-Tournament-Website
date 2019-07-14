@@ -2,10 +2,10 @@
   <v-container grid-list-md text-xs-center>
       <v-layout row wrap justify-center>
         <v-flex md9 ma-2>
-          <h1>Golden Glove</h1>
+          <h1>Fixtures</h1>
         </v-flex>  
         <v-flex md3 >
-            <v-data-table :headers="headers" :items="playersGoldenGlove" item-key="player.id" class="elevation-1">
+            <v-data-table :headers="headers" :items="players" item-key="fixture.id" class="elevation-1">
               <template v-slot:items="props">
                 <td>{{ props.item.name }}</td>
                 <td class="text-xs-right">{{ props.item.goals_against }}</td>

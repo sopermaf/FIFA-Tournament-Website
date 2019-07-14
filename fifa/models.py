@@ -40,6 +40,19 @@ class Player(models.Model):
     def calculateGoalDiff(self):
         return self.goals_scored + self.goals_against
 
+    def updatePlayer(self, myGoals, opponentGoals):
+        self.goals_scored += myGoals
+        self.goals_against += opponentGoals
+
+        if myGoals == opponentGoals:
+            self.points += 1
+            self.draws += 1
+        elif myGoals > opponentGoals:
+            self.points += 3
+            self.wins += 1
+        elif myGoals < opponentGoals:
+            self.losses += 1
+
 
 class FixtureSide(models.Model):
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
