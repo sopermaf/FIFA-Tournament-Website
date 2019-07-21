@@ -32,7 +32,44 @@
     </v-toolbar>
 
     <v-content>
-      <FixturesList />
+      <!--<v-container grid-list-md text-xs-center>
+        <v-layout row wrap justify-center>
+          <v-flex md9 ma-2>
+            <v-btn flat @click="choice = 'Fixtures'">
+              <h1>Fixtures</h1>
+            </v-btn>
+            <v-btn flat @click="choice = 'Results'">
+              <h1>Results</h1>
+            </v-btn>
+          </v-flex>
+        </v-layout>
+      </v-container>-->
+
+      <v-tabs fixed-tabs color="cyan" dark slider-color="yellow">
+        <v-tab ripple>
+          <h2> Fixtures </h2>
+        </v-tab>
+        <v-tab ripple>
+          <h2> Results </h2>
+        </v-tab>
+        <v-tab-item>
+          <v-card flat>
+            <FixturesList />
+          </v-card>
+        </v-tab-item>
+        <v-tab-item>
+          <v-card flat>
+            <ResultsList />
+          </v-card>
+        </v-tab-item>  
+      </v-tabs>
+
+      <!--<template v-if="choice == 'Fixtures'">
+        <FixturesList />
+      </template>
+      <template v-else-if="choice == 'Results'">
+        <ResultsList />
+      </template>-->
     </v-content>
 
     <v-footer height="auto" color="primary lighten-1">
@@ -47,6 +84,7 @@
 
 <script>
 import FixturesList from './components/FixturesList';
+import ResultsList from './components/ResultsList';
 import DropDown from './components/DropDown';
 
 export default {
@@ -54,10 +92,12 @@ export default {
   components: {
     DropDown,
     FixturesList,
+    ResultsList,
   },
   data () {
     return {
       players: [],
+      choice: "Fixtures",
     }
   },
   methods: {

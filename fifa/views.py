@@ -100,22 +100,43 @@ def viewFixtures(request):
             fixtureSide_data['name'] = fixtureSide.player.name
             
             fixture_ind['fixture_sides'].append(fixtureSide_data)
-            print("Added " + fixtureSide.player.name)
+            # print("Added " + fixtureSide.player.name)
             print(fixture_ind)
 
         # add value to individual record
         fixture_ind['fixture_id'] = fixture.id
-        #fixture_ind['fixture_sides'] = fixtureSide_data
         fixture_ind['timestamp'] = str(fixture.date)
         
         # add a Fixture to fixtures dict
         fixtures_data.append(fixture_ind)
 
     # gather Result data
+    for result in Fixture.objects.filter(game_played=True):
+        result_ind = {}
+        result_ind['fixture_sides'] = []
+        for fixtureSide in result.fixtureSides.all():
+            fixtureSide_data = {}
+
+            fixtureSide_data['player_id'] = fixtureSide.player.id
+            fixtureSide_data['name'] = fixtureSide.player.name
+            fixtureSide_data['team'] = fixtureSide.team.name
+            fixtureSide_data['goals'] = fixtureSide.goals
+            result_ind['fixture_sides'].append(fixtureSide_data)
+
+        # add value to individual record
+        result_ind['fixture_id'] = result.id
+        result_ind['timestamp'] = str(result.date)
+
+        # add a Fixture to fixtures dict
+        results_data.append(result_ind)
+
+    print('Fixtures: ' + str(fixtures_data))
+    print('Results: ' + str(results_data))
 
     context = {
         "page_data": json.dumps({
             'fixtures': fixtures_data,
+            'results': results_data,
             }),
     }
     return render(request, "fixtures.html", context)

@@ -32,7 +32,7 @@
     </v-toolbar>
 
     <v-content>
-      <template v-if=" choice == 'LeagueTable'">
+      <!--<template v-if=" choice == 'LeagueTable'">
         <LeagueTable :players="players"/>
       </template>
       <template v-else-if=" choice == 'GoldenBoot'">
@@ -40,7 +40,33 @@
       </template>
       <template v-else-if=" choice == 'GoldenGlove'">
         <GoldenGlove :players="players"/>
-      </template>
+      </template>-->
+      <v-tabs fixed-tabs color="cyan" dark slider-color="yellow">
+        <v-tab ripple>
+          <h2> League Table </h2>
+        </v-tab>
+        <v-tab ripple>
+          <h2> Golden Boot </h2>
+        </v-tab>
+        <v-tab ripple>
+          <h2> Golden Glove </h2>
+        </v-tab>
+        <v-tab-item>
+          <v-card flat>
+            <LeagueTable />
+          </v-card>
+        </v-tab-item>
+        <v-tab-item>
+          <v-card flat>
+          <GoldenBoot />
+          </v-card>
+        </v-tab-item>  
+        <v-tab-item>
+          <v-card flat>
+          <GoldenGlove />
+          </v-card>
+        </v-tab-item>  
+      </v-tabs>
     </v-content>
 
     <v-footer height="auto" color="primary lighten-1">
@@ -71,6 +97,9 @@ export default {
     return {
       choice: "LeagueTable",
       players: [],
+      pagination: {
+        rowsPerPage: 30
+      },
     }
   },
   methods: {

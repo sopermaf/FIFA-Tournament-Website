@@ -1,11 +1,8 @@
 <template>
   <v-container grid-list-md text-xs-center>
       <v-layout row wrap justify-center>
-        <v-flex md9 ma-2>
-          <h1>Golden Boot</h1>
-        </v-flex>  
-        <v-flex md4 >
-            <v-data-table :headers="headers" :items="playersGoldenBoot" item-key="player.id" class="elevation-1">
+        <v-flex md5 >
+            <v-data-table :headers="headers" :items="playersGoldenBoot" item-key="player.id" class="elevation-1" :pagination.sync="pagination2">
               <template v-slot:items="props">
                 <td>{{ props.index + 1 }}</td>
                 <td>{{ props.item.name }}</td>
@@ -19,13 +16,13 @@
 
 <script>
 export default {
-  props: {
-    players: {
-      type: Array
-    }
+  mounted() {
+    this.data = document.body.getAttribute('data');
+    this.players = JSON.parse(this.data)['players'];
   },
   data() {
     return {
+      players: [],
       headers: [
           { text: 'Position', align: 'left', sortable: false},
           { text: 'Player', align: 'left', sortable: false },

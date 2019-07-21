@@ -1,11 +1,8 @@
 <template>
   <v-container grid-list-md text-xs-center>
       <v-layout row wrap justify-center>
-        <v-flex md9 ma-2>
-          <h1>League Table</h1>
-        </v-flex>  
         <v-flex md10 >
-            <v-data-table :headers="headers" :items="playersOrdered" item-key="player.id" class="elevation-1">
+            <v-data-table :headers="headers" :items="playersOrdered" item-key="player.id" class="elevation-1" :pagination.sync="pagination">
               <template v-slot:items="props">
                 <td :style="{ backgroundColor: colorRank(props.index) }">
                   {{ props.index + 1 }}
@@ -27,13 +24,13 @@
 
 <script>
 export default {
-  props: {
-    players: {
-      type: Array
-    }
+  mounted() {
+    this.data = document.body.getAttribute('data');
+    this.players = JSON.parse(this.data)['players'];
   },
   data() {
     return {
+      players: [],
       headers: [
           { text: 'Position', align: 'left', sortable: false},
           { text: 'Names', align: 'left', sortable: false, value: 'name'},
@@ -45,6 +42,9 @@ export default {
           { text: 'Goals Scored', value: 'goals_scored', sortable: false},
           { text: 'Goals Against', value: 'goals_against', sortable: false},
         ],
+      pagination: {
+        rowsPerPage: 30
+      }, 
     };
   },
   methods: {
