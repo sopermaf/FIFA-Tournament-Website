@@ -140,3 +140,10 @@ def viewFixtures(request):
             }),
     }
     return render(request, "fixtures.html", context)
+
+
+def playerTeamSelectionData(request, player_name):
+    # load all teams
+    # load all opponents
+    # load page
+    return render(request, "playerteam.html")

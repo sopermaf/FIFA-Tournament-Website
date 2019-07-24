@@ -12,6 +12,10 @@ const pages = {
     'fixtures_app': {
         entry: './src/fixtures.js',
         chunks: ['chunk-vendors']
+    },
+    'playerteam_app': {
+        entry: './src/playerteam.js',
+        chunks: ['chunk-vendors']
     }
 }
 
