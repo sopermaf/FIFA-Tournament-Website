@@ -5,7 +5,9 @@
         <span class="mr-2"> Home </span>
       </v-btn>
       
-      <DropDown @choice-update="messageReceived"/>
+      <v-btn flat href="/fifa/">
+        <span class="mr-2"> League Standings </span>
+      </v-btn>
 
       <v-btn flat >
         <span class="mr-2" href=""> Players </span>
