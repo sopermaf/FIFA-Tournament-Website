@@ -1,34 +1,34 @@
 <template>
   <v-container grid-list-md text-xs-center>
       <v-layout row wrap justify-center>
-        <v-flex md12 ma-2>
+        <v-flex md12 mb-5>
           <h1>Welcome {{ user }} </h1>
           <h3> Select Your Teams for Each Game </h3>
         </v-flex>  
-        <v-flex md2 >
+        <v-flex md3 >
                 <select v-model="opponent_chosen" class="player1" @click="response =''">
                     <option disabled value="">Opponent</option>
                     <option v-for="p in players" :key="p.id"> {{ p.name }} </option>
                 </select>
         </v-flex>
-        <v-flex md2 >
-                <select v-model="team_chosen" class="player1" @click="response =''">
-                    <option disabled value="">TEAM</option>
-                    <option v-for="i in 20" :key="i"> {{ i }} </option>
+        <v-flex md3 >
+                <select v-model="team_chosen" class="player2" @click="response =''">
+                    <option disabled value="">Team</option>
+                    <option v-for="team in teams" :key="team.id"> {{ team.name }} </option>
                 </select>
         </v-flex>
 
         <!-- Preview of Selection -->
-        <v-flex md5 mt-5>
+        <v-flex md5 ma-5>
             <v-card md3>
-              <h2>  <span> {{ opponent_chosen }}</span> </h2>
-              <h2> <span> {{ team_chosen }}</span> </h2>
+              <h2>  <span class=""> {{ opponent_chosen }}</span> </h2>
+              <h2> <span class=""> {{ team_chosen }}</span> </h2>
             </v-card>
         </v-flex>
 
-        <v-flex md5 mt-2>
-            <v-btn  @click="addResult()">
-                <span class=""> Submit Result </span>
+        <v-flex md12 mt-5>
+            <v-btn  @click="addTeam()">
+                <span class=""> Submit Team </span>
             </v-btn>
 
             <p mt-4 :style="{ color: response_color }"> {{ response }} </p>
@@ -48,6 +48,9 @@ import axios from "axios";
         },
         user:  {
             type: String
+        },
+        teams: {
+            type: Array
         }
     }, 
     data: () => ({
@@ -58,7 +61,7 @@ import axios from "axios";
         search: "",
     }),
     methods: {
-        addResult() {
+        addTeam() {
             /*if(this.match_players[0] == "Player 1" || this.match_players[1] == 'Player 2'){
                 this.response = "Please select two players for this game";
                 this.response_color = "red"

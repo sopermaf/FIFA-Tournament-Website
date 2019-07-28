@@ -34,7 +34,34 @@
     </v-toolbar>
 
     <v-content>
-      <TeamSelect :user="user" :players="players" />
+      <!-- LOG IN Section -->
+      <!--<template v-if="!loggedIn">
+        <v-container grid-list-md text-xs-center>
+          <v-layout row wrap justify-center>
+            <v-flex md12 ma-2 >
+              <select v-model="user" class="player1">
+                  <option disabled value="">Username</option>
+                  <option v-for="u in users_available" :key="u.index"> {{ u }} </option>
+              </select>
+            </v-flex>
+
+            <v-flex md5 ma-5 >
+              <input v-model="user" placeholder="edit me">
+              <p>Message is: {{ user }}</p>
+            </v-flex>
+            
+            <v-flex md5 ma-5 >
+              <v-btn  @click="loggedIn = true">
+                  <span class=""> Submit Result </span>
+              </v-btn>
+            </v-flex>          
+          </v-layout>
+        </v-container>
+      </template>-->      
+
+     
+        <TeamSelect :user="username" :players="opponents" :teams="teams"/>
+
     </v-content>
 
     <v-footer height="auto" color="primary lighten-1">
@@ -57,21 +84,34 @@ export default {
   },
   data () {
     return {
-      user: "Kunal",
-      players: [
-        {
-          'name': 'Fabian'
-        },
-        {
-          'name': 'Robert'
-        },
-        {
-          'name': 'Burke'
-        },
-    ]
+      username: '',
+      teams: [],
+      opponents: [],
     }
+  },
+  mounted() {
+    this.data = document.body.getAttribute('data');
+    this.teams = JSON.parse(this.data)['unusedTeams'];
+    this.opponents = JSON.parse(this.data)['opponents'];
+    this.username = JSON.parse(this.data)['username'];
   },
   methods: {
   },
 }
 </script>
+
+<style>
+
+.player1 {
+    background-color: lightcoral;
+}
+
+.player2 {
+    background-color: lightgreen;
+}
+
+p {
+    color: rgba(255, 0, 0, 0.767);
+}
+
+</style>

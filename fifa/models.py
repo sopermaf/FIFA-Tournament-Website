@@ -31,8 +31,9 @@ class Player(models.Model):
     def allTeams(self):
        return self.teams.all()
 
-    def unusedTeams(self):
-        return self.teams.all().filter(chosen=False)
+    def getUnusedTeams(self):
+        unusedTeams = self.teams.all().filter(chosen=False).values('id', 'name')
+        return list(unusedTeams)
 
     def calculateGamesPlayed(self):
         return self.wins + self.draws + self.losses
@@ -97,3 +98,13 @@ class Fixture(models.Model):
         for side in sides:
             names.append(side.player.name)
         return names
+
+    def getSide(self, player_name):
+        sides = self.fixtureSides.all()
+        result = None
+
+        for side in sides:
+            if side.player.name == player_name:
+                result = side
+
+        return result

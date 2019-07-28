@@ -143,7 +143,42 @@ def viewFixtures(request):
 
 
 def playerTeamSelectionData(request, player_name):
-    # load all teams
-    # load all opponents
-    # load page
-    return render(request, "playerteam.html")
+    player = Player.objects.get(name=player_name)
+    unusedTeams = player.getUnusedTeams()
+    opponents = list(Player.objects.exclude(name=player_name).values('name', 'id'))
+
+    context = {
+        "page_data": json.dumps({
+            'unusedTeams': unusedTeams,
+            'opponents': opponents,
+            'username': player.name
+            }),
+    }
+    return render(request, "playerteam.html", context)
+
+
+def selectTeam(request, player_id, opponent_id, team_id):
+    # find Fixture
+    user = Player.objects.get(id=player_id)
+    opponent = Player.objects.get(id=opponent_id)
+    team = Team.objects.get(id=team_id)
+
+    all_fixtures = Fixture.objects.filter(game_played=False)
+    found_fixture = ""
+    for fixture in all_fixtures:
+        all_p = fixture.listPlayers()
+        if user.name in all_p and opponent.name in all_p:
+            found_fixture = fixture
+
+    if found_fixture == "":
+        raise Exception("Fixture Not Found")
+
+    # update FixtureSide with new player Team
+    fs = found_fixture.getSide(user.name)
+    fs.team = team
+    team.chosen = True
+    
+    fs.save()
+    team.save()
+
+    return HttpResponse("Result Added")
