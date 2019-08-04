@@ -196,9 +196,15 @@ def selectTeam(request, player_id, opponent_id, team_id):
 
 
 def viewPlayers(request):
-    players = Player.objects.values('name', 'wins', 
-              'draws', 'losses', 'points', 'goals_scored',
-              'goals_against')
+    players = Player.objects.values(
+        'id',
+        'name',
+        'tournament_appearances',
+        'best_overall_finish',
+        'best_league_finish',
+        'tournament_favourite',
+        'description',
+    )
 
     context = {
         "page_data": json.dumps({'players': list(players)}),

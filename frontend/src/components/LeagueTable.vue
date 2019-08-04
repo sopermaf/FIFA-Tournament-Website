@@ -49,9 +49,9 @@ export default {
   },
   methods: {
     colorRank(index) {
-      if(index < 4)
-        return "green"
-      else return "red"
+      if(index < 6)
+        return "green";
+      else return 'red';
     }
   },
   computed: {

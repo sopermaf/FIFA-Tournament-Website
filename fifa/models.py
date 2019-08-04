@@ -7,6 +7,7 @@ class Team(models.Model):
     name = models.CharField(max_length=200)
     chosen = models.BooleanField(default=False)
     played = models.BooleanField(default=False)
+    star_rating = models.FloatField(default=0)
 
     def __str__(self):
         return 'id: ' +  str(self.id) + ', ' + self.name + ": " + str(self.chosen)
@@ -15,7 +16,7 @@ class Team(models.Model):
 class Player(models.Model):
     # identity info
     name = models.CharField(max_length=200)
-    teams = models.ManyToManyField(Team)
+    teams = models.ManyToManyField(Team, null=True, blank=True)
 
     # player profile
     tournament_appearances = models.PositiveIntegerField(default=0)
@@ -68,7 +69,7 @@ class Player(models.Model):
 
 class FixtureSide(models.Model):
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
-    team = models.ForeignKey(Team, on_delete=models.CASCADE, blank=True, null=True)
+    team = models.ForeignKey(Team, on_delete=models.SET_NULL, blank=True, null=True)
     goals = models.PositiveIntegerField(default=None, blank=True, null=True)
     team_chosen = models.BooleanField(default=False)
 
