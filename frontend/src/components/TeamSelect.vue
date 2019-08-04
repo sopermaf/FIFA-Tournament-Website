@@ -99,6 +99,8 @@ import axios from "axios";
             this.response_color = "green";
             
             // reset inputs from JSON
+            this.opponent_chosen = "";
+            this.team_chosen = "";
         },
         
     }
