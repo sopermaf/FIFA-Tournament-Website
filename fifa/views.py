@@ -189,7 +189,6 @@ def selectTeam(request, player_id, opponent_id, team_id):
     fs.team = team
     fs.team_chosen = True
     team.chosen = True
-
     
     fs.save()
     team.save()

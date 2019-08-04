@@ -59,7 +59,7 @@ import axios from "axios";
     data: () => ({
         opponent_chosen: "",
         team_chosen: "",
-        response: "",
+        response_status: "",
         response_color: "",
         search: "No search made",
     }),
@@ -75,7 +75,7 @@ import axios from "axios";
         selectTeam() {
             // add check for fields being filled
             if(this.opponent_chosen == "" || this.team_chosen == ""){
-                this.response = "Please select both an Opponent and a Team";
+                this.response_status = "Please select both an Opponent and a Team";
                 this.response_color = "red";
                 return
             }
@@ -89,12 +89,13 @@ import axios from "axios";
             this.search += this.opp_id + '/' + this.team_id + '/'
 
             axios.get(this.search).then(response => {
-                //this.candidates = response.data['candidates']
+                this.teams = response.data['teams'];
+                this.players = response.data['opponents'];
                 console.log(response)
             })
 
             // inform user
-            this.response = "Result Recorded Successfully. Reload Page";
+            this.response_status = "Result Recorded Successfully. Reload Page";
             this.response_color = "green";
             
             // reset inputs from JSON
