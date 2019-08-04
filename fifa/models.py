@@ -6,16 +6,23 @@ from datetime import datetime as dt
 class Team(models.Model):
     name = models.CharField(max_length=200)
     chosen = models.BooleanField(default=False)
+    played = models.BooleanField(default=False)
 
     def __str__(self):
         return 'id: ' +  str(self.id) + ', ' + self.name + ": " + str(self.chosen)
 
 
 class Player(models.Model):
-    # descriptions
+    # identity info
     name = models.CharField(max_length=200)
-    description = models.CharField(max_length=20000, default="", blank=True)
     teams = models.ManyToManyField(Team)
+
+    # player profile
+    tournament_appearances = models.PositiveIntegerField(default=0)
+    best_overall_finish = models.CharField(max_length=50, default="no overall finish", blank=True, null=True)
+    best_league_finish = models.CharField(max_length=50, default="no league finish", blank=True, null=True)
+    tournament_favourite = models.CharField(max_length=100, default="no favourite", blank=True, null=True)
+    description = models.CharField(max_length=20000, default="no desc", blank=True, null=True)
 
     # statistics
     wins = models.PositiveIntegerField(default=0)
@@ -34,6 +41,10 @@ class Player(models.Model):
     def getUnusedTeams(self):
         unusedTeams = self.teams.all().filter(chosen=False).values('id', 'name')
         return list(unusedTeams)
+
+    def getUnplayedTeams(self):
+        unplayedTeams = self.teams.all().filter(played=False).values('id', 'name')
+        return list(unplayedTeams)
 
     def calculateGamesPlayed(self):
         return self.wins + self.draws + self.losses
@@ -64,10 +75,23 @@ class FixtureSide(models.Model):
     def __str__(self):
         return 'id: ' +  str(self.id) + ', ' +self.player.name + ' ' + str(self.team_chosen)
 
-    def updateTeam(self, team_id):
+    def setTeamChosen(self, team_id):
+        # update team chosen
         self.team.chosen = True
+
+        # fixture side variables
         self.team_chosen = True
 
+    def setValues(self, goals_scored, goals_allowed):
+        # fixture side update
+        self.goals = goals_scored
+
+        # team update
+        self.team.chosen = True
+        self.team.played = True
+
+        # player update
+        self.player.updatePlayer(goals_scored, goals_allowed)
 
     @classmethod
     def createSide(cls, player, team):

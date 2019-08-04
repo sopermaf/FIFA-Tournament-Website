@@ -9,8 +9,8 @@
         <span class="mr-2" href=""> League Standings </span>
       </v-btn>
 
-      <v-btn flat >
-        <span class="mr-2" href=""> Players </span>
+      <v-btn flat href='/fifa/players/'>
+        <span class="mr-2"> Players </span>
       </v-btn>
 
       <v-btn flat href="/fifa/fixtures/">
@@ -34,19 +34,6 @@
     </v-toolbar>
 
     <v-content>
-      <!--<v-container grid-list-md text-xs-center>
-        <v-layout row wrap justify-center>
-          <v-flex md9 ma-2>
-            <v-btn flat @click="choice = 'Fixtures'">
-              <h1>Fixtures</h1>
-            </v-btn>
-            <v-btn flat @click="choice = 'Results'">
-              <h1>Results</h1>
-            </v-btn>
-          </v-flex>
-        </v-layout>
-      </v-container>-->
-
       <v-tabs fixed-tabs color="cyan" dark slider-color="yellow">
         <v-tab ripple>
           <h2> Fixtures </h2>

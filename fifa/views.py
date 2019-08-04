@@ -56,15 +56,6 @@ def dataEntry(request):
 
 
 def addFixtureResult(request, player1, goals1, player2, goals2):
-    # get players and save results
-    p1 = Player.objects.get(name=player1)
-    p1.updatePlayer(goals1, goals2)
-    p1.save()
-
-    p2 = Player.objects.get(name=player2)
-    p2.updatePlayer(goals2, goals1)
-    p2.save()
-
     # find Fixture
     all_fixtures = Fixture.objects.filter(game_played=False)
     found_fixture = ""
@@ -83,9 +74,9 @@ def addFixtureResult(request, player1, goals1, player2, goals2):
 
     for fs in found_fixture.fixtureSides.all():
         if fs.player.name == player1:
-            fs.goals = goals1
+            fs.setValues(goals1, goals2)
         elif fs.player.name == player2:
-            fs.goals = goals2
+            fs.setValues(goals2, goals1)
         else:
             raise Exception('Unknown player in player field')
 
@@ -202,3 +193,14 @@ def selectTeam(request, player_id, opponent_id, team_id):
     # return json with teams updated
     
     return JsonResponse(data)
+
+
+def viewPlayers(request):
+    players = Player.objects.values('name', 'wins', 
+              'draws', 'losses', 'points', 'goals_scored',
+              'goals_against')
+
+    context = {
+        "page_data": json.dumps({'players': list(players)}),
+    }
+    return render(request, "profile.html", context)

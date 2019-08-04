@@ -9,8 +9,8 @@
         <span class="mr-2"> League Standings </span>
       </v-btn>
 
-      <v-btn flat href='/fifa/players/'>
-        <span class="mr-2"> Players </span>
+      <v-btn flat >
+        <span class="mr-2" href=""> Players </span>
       </v-btn>
 
       <v-btn flat href="/fifa/fixtures/">
@@ -33,8 +33,8 @@
       </v-toolbar-title>
     </v-toolbar>
 
-    <v-content>
-        <TeamSelect :user="username" :userID="userID" :players="opponents" :teams="teams"/>
+    <v-content>  
+        Profile Page
     </v-content>
 
     <v-footer height="auto" color="primary lighten-1">
@@ -51,24 +51,15 @@
 import TeamSelect from './components/TeamSelect';
 
 export default {
-  name: 'PlayerTeam',
+  name: 'Profile',
   components: {
     TeamSelect
   },
   data () {
     return {
-      username: '',
-      teams: [],
-      opponents: [],
-      userID: '',
     }
   },
   mounted() {
-    this.data = document.body.getAttribute('data');
-    this.teams = JSON.parse(this.data)['unusedTeams'];
-    this.opponents = JSON.parse(this.data)['opponents'];
-    this.username = JSON.parse(this.data)['username'];
-    this.userID = JSON.parse(this.data)['userID'];
   },
   methods: {
   },

@@ -16,6 +16,10 @@ const pages = {
     'playerteam_app': {
         entry: './src/playerteam.js',
         chunks: ['chunk-vendors']
+    },
+    'profile_app': {
+        entry: './src/profile.js',
+        chunks: ['chunk-vendors']
     }
 }
 

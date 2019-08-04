@@ -9,7 +9,7 @@
         <span class="mr-2"> League Standings </span>
       </v-btn>
 
-      <v-btn flat >
+      <v-btn flat href='/fifa/players/'>
         <span class="mr-2"> Players </span>
       </v-btn>
 
