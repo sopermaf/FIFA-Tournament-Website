@@ -1,9 +1,36 @@
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
-from .models import Player, Fixture, FixtureSide
+from .models import Player, Fixture, FixtureSide, Team
 from .forms import NameForm
 import json
 from datetime import datetime
+
+
+# aux funct
+def getUnplayedOpponents(player_name):
+    '''
+    Returns a list of the opponents for unplayed games
+    '''
+    player = Player.objects.get(name=player_name)
+    opponents = []
+
+    # only show games that haven't been played
+    all_fixtures = Fixture.objects.filter(game_played=False)
+    for fixture in all_fixtures:
+        all_p = fixture.listPlayers()
+        if player.name in all_p and not fixture.getSide(player.name).team_chosen:
+            opponent_index = (all_p.index(player.name) + 1) % 2
+            opp = Player.objects.get(name=all_p[opponent_index])
+            opp_values = {
+                'name': opp.name,
+                'id': opp.id
+            }
+            opponents.append(opp_values)
+
+    return opponents
+
+
+# view
 
 
 def index(request):
@@ -28,24 +55,6 @@ def dataEntry(request):
     return render(request, "data.html", context)
 
 
-def addResult(request, player1, goals1, player2, goals2):
-    # get players and save results
-    p1 = Player.objects.get(name=player1)
-    p1.updatePlayer(goals1, goals2)
-
-    p2 = Player.objects.get(name=player2)
-    p2.updatePlayer(goals2, goals1)
-
-    #find Fixture and add details
-    
-
-    # save the results
-    p1.save()
-    p2.save()
-
-    return HttpResponse("Result Added")
-
-
 def addFixtureResult(request, player1, goals1, player2, goals2):
     # get players and save results
     p1 = Player.objects.get(name=player1)
@@ -57,7 +66,7 @@ def addFixtureResult(request, player1, goals1, player2, goals2):
     p2.save()
 
     # find Fixture
-    all_fixtures = Fixture.objects.all()
+    all_fixtures = Fixture.objects.filter(game_played=False)
     found_fixture = ""
     for fixture in all_fixtures:
         all_p = fixture.listPlayers()
@@ -146,12 +155,14 @@ def playerTeamSelectionData(request, player_name):
     player = Player.objects.get(name=player_name)
     unusedTeams = player.getUnusedTeams()
     opponents = list(Player.objects.exclude(name=player_name).values('name', 'id'))
+    opponents = getUnplayedOpponents(player_name)
 
     context = {
         "page_data": json.dumps({
             'unusedTeams': unusedTeams,
             'opponents': opponents,
-            'username': player.name
+            'username': player.name,
+            'userID': player.id,
             }),
     }
     return render(request, "playerteam.html", context)
@@ -176,9 +187,19 @@ def selectTeam(request, player_id, opponent_id, team_id):
     # update FixtureSide with new player Team
     fs = found_fixture.getSide(user.name)
     fs.team = team
+    fs.team_chosen = True
     team.chosen = True
+
     
     fs.save()
     team.save()
 
-    return HttpResponse("Result Added")
+    opponents = getUnplayedOpponents(user.name)
+    teams = user.getUnusedTeams()
+    data = {
+        'opponents': opponents,
+        'teams': teams,
+    }
+    # return json with teams updated
+    
+    return JsonResponse(data)

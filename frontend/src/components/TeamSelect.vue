@@ -27,7 +27,7 @@
         </v-flex>
 
         <v-flex md12 mt-5>
-            <v-btn  @click="addTeam()">
+            <v-btn  @click="selectTeam()">
                 <span class=""> Submit Team </span>
             </v-btn>
 
@@ -49,6 +49,9 @@ import axios from "axios";
         user:  {
             type: String
         },
+        userID:  {
+            type: String
+        },
         teams: {
             type: Array
         }
@@ -58,23 +61,32 @@ import axios from "axios";
         team_chosen: "",
         response: "",
         response_color: "",
-        search: "",
+        search: "No search made",
     }),
     methods: {
-        addTeam() {
-            /*if(this.match_players[0] == "Player 1" || this.match_players[1] == 'Player 2'){
-                this.response = "Please select two players for this game";
-                this.response_color = "red"
+        findID(search_list, find_name) {
+            for(var i = 0; i < search_list.length; i++) {
+                if(search_list[i].name == find_name)
+                    return search_list[i].id
+            } 
+
+            return -1;
+        },
+        selectTeam() {
+            // add check for fields being filled
+            if(this.opponent_chosen == "" || this.team_chosen == ""){
+                this.response = "Please select both an Opponent and a Team";
+                this.response_color = "red";
                 return
-            } else if (this.match_players[0] == this.match_players[1]) {
-                this.response = "Both players cannot be the same";
-                this.response_color = "red"
-                return;
             }
             
+            // get id codes
+            this.opp_id = this.findID(this.players, this.opponent_chosen)
+            this.team_id = this.findID(this.teams, this.team_chosen)
+
             //form the search and make request
-            this.search = '/fifa/input/' + this.match_players[0] + '/' + this.goals[0] + '/'
-            this.search += this.match_players[1] + '/' + this.goals[1] + '/'
+            this.search = '/fifa/selectTeam/' + this.userID + '/'
+            this.search += this.opp_id + '/' + this.team_id + '/'
 
             axios.get(this.search).then(response => {
                 //this.candidates = response.data['candidates']
@@ -82,15 +94,12 @@ import axios from "axios";
             })
 
             // inform user
-            this.response = "Result Recorded Successfully";
+            this.response = "Result Recorded Successfully. Reload Page";
             this.response_color = "green";
             
-            // reset inputs
-            this.match_players[0] = "Player 1";
-            this.match_players[1] = "Player 2";
-            this.goals[0] = 0;
-            this.goals[1] = 0;*/
-        }
+            // reset inputs from JSON
+        },
+        
     }
   }
 </script>

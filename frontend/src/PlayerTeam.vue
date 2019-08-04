@@ -60,7 +60,7 @@
       </template>-->      
 
      
-        <TeamSelect :user="username" :players="opponents" :teams="teams"/>
+        <TeamSelect :user="username" :userID="userID" :players="opponents" :teams="teams"/>
 
     </v-content>
 
@@ -87,6 +87,7 @@ export default {
       username: '',
       teams: [],
       opponents: [],
+      userID: '',
     }
   },
   mounted() {
@@ -94,6 +95,7 @@ export default {
     this.teams = JSON.parse(this.data)['unusedTeams'];
     this.opponents = JSON.parse(this.data)['opponents'];
     this.username = JSON.parse(this.data)['username'];
+    this.userID = JSON.parse(this.data)['userID'];
   },
   methods: {
   },

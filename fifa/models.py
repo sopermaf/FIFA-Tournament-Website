@@ -8,7 +8,7 @@ class Team(models.Model):
     chosen = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.name + ": " + str(self.chosen)
+        return 'id: ' +  str(self.id) + ', ' + self.name + ": " + str(self.chosen)
 
 
 class Player(models.Model):
@@ -26,7 +26,7 @@ class Player(models.Model):
     goals_against = models.PositiveIntegerField(default=0)
 
     def __str__(self):
-        return self.name
+        return 'id: ' +  str(self.id) + ', ' +self.name
 
     def allTeams(self):
        return self.teams.all()
@@ -59,12 +59,15 @@ class FixtureSide(models.Model):
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
     team = models.ForeignKey(Team, on_delete=models.CASCADE, blank=True, null=True)
     goals = models.PositiveIntegerField(default=None, blank=True, null=True)
+    team_chosen = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.player.name
+        return 'id: ' +  str(self.id) + ', ' +self.player.name + ' ' + str(self.team_chosen)
 
-    def updateTeam(self):
+    def updateTeam(self, team_id):
         self.team.chosen = True
+        self.team_chosen = True
+
 
     @classmethod
     def createSide(cls, player, team):
@@ -89,7 +92,7 @@ class Fixture(models.Model):
         for side in sides:
             info += side.player.name + " "
 
-        return str(self.game_played) + ": " + info
+        return 'id: ' +  str(self.id) + ', ' + str(self.game_played) + ": " + info
 
     def listPlayers(self):
         sides = self.fixtureSides.all()
@@ -98,6 +101,17 @@ class Fixture(models.Model):
         for side in sides:
             names.append(side.player.name)
         return names
+
+    def listSideDetails(self):
+        sides = self.fixtureSides.all()
+        side_info = {}
+
+        for side in sides:
+            side_info[side.player.name] = {
+                'team_chosen': side.team_chosen,
+                'fs_id': side.id,
+            }
+        return side_info
 
     def getSide(self, player_name):
         sides = self.fixtureSides.all()
