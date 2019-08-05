@@ -33,8 +33,11 @@
       </v-toolbar-title>
     </v-toolbar>
 
-    <v-content>  
-        Profile Page
+    <v-content>
+        <span v-for="player in players" :key="player.id">
+          <ProfileIndividual :player="player" class="mb-4 mt-4 elevation-4" elevation-1 ma-2/>
+        </span>
+        
     </v-content>
 
     <v-footer height="auto" color="primary lighten-1">
@@ -48,18 +51,21 @@
 </template>
 
 <script>
-import TeamSelect from './components/TeamSelect';
+import ProfileIndividual from './components/ProfileIndividual';
 
 export default {
   name: 'Profile',
   components: {
-    TeamSelect
+    ProfileIndividual,
   },
   data () {
     return {
+      players: [],
     }
   },
   mounted() {
+    this.data = document.body.getAttribute('data');
+    this.players = JSON.parse(this.data)['players'];
   },
   methods: {
   },
@@ -68,16 +74,9 @@ export default {
 
 <style>
 
-.player1 {
-    background-color: lightcoral;
-}
-
-.player2 {
-    background-color: lightgreen;
-}
-
-p {
-    color: rgba(255, 0, 0, 0.767);
+.profile {
+  border: 2px solid black;
+  border-radius: 25px;
 }
 
 </style>

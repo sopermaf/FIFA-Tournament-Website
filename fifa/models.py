@@ -44,7 +44,7 @@ class Player(models.Model):
         return list(unusedTeams)
 
     def getUnplayedTeams(self):
-        unplayedTeams = self.teams.all().filter(played=False).values('id', 'name')
+        unplayedTeams = self.teams.all().filter(played=False).values('id', 'name', 'star_rating')
         return list(unplayedTeams)
 
     def calculateGamesPlayed(self):

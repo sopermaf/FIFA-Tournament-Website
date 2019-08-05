@@ -205,8 +205,13 @@ def viewPlayers(request):
         'tournament_favourite',
         'description',
     )
+    players = list(players)
+
+    for player in players:
+        p = Player.objects.get(id=player['id'])
+        player['teams_available'] = p.getUnplayedTeams()
 
     context = {
-        "page_data": json.dumps({'players': list(players)}),
+        "page_data": json.dumps({'players': players}),
     }
     return render(request, "profile.html", context)
