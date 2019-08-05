@@ -48,13 +48,11 @@
 </template>
 
 <script>
-import DropDown from './components/DropDown';
 import ResultInput from './components/ResultInput';
 
 export default {
   name: 'DataEntry',
   components: {
-    DropDown,
     ResultInput,
   },
   data () {

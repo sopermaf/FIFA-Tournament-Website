@@ -37,7 +37,6 @@
         <span v-for="player in players" :key="player.id">
           <ProfileIndividual :player="player" class="mb-4 mt-4 elevation-4" elevation-1 ma-2/>
         </span>
-        
     </v-content>
 
     <v-footer height="auto" color="primary lighten-1">

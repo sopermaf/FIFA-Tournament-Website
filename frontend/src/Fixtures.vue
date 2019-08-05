@@ -41,6 +41,7 @@
         <v-tab ripple>
           <h2> Results </h2>
         </v-tab>
+        
         <v-tab-item>
           <v-card flat>
             <FixturesList />

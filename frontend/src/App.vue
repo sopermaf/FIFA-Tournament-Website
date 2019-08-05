@@ -34,15 +34,6 @@
     </v-toolbar>
 
     <v-content>
-      <!--<template v-if=" choice == 'LeagueTable'">
-        <LeagueTable :players="players"/>
-      </template>
-      <template v-else-if=" choice == 'GoldenBoot'">
-        <GoldenBoot :players="players"/>
-      </template>
-      <template v-else-if=" choice == 'GoldenGlove'">
-        <GoldenGlove :players="players"/>
-      </template>-->
       <v-tabs fixed-tabs color="cyan" dark slider-color="yellow">
         <v-tab ripple>
           <h2> League Table </h2>
@@ -53,6 +44,10 @@
         <v-tab ripple>
           <h2> Golden Glove </h2>
         </v-tab>
+        <v-tab ripple>
+          <h2> Knockout Matchups </h2>
+        </v-tab>
+
         <v-tab-item>
           <v-card flat>
             <LeagueTable />
@@ -66,6 +61,11 @@
         <v-tab-item>
           <v-card flat>
           <GoldenGlove />
+          </v-card>
+        </v-tab-item>  
+        <v-tab-item>
+          <v-card flat>
+          <Knockout />
           </v-card>
         </v-tab-item>  
       </v-tabs>
@@ -85,7 +85,7 @@
 import LeagueTable from './components/LeagueTable.vue';
 import GoldenBoot from './components/GoldenBoot.vue';
 import GoldenGlove from './components/GoldenGlove.vue';
-import DropDown from './components/DropDown';
+import Knockout from './components/Knockout.vue';
 
 export default {
   name: 'App',
@@ -93,7 +93,7 @@ export default {
     LeagueTable,
     GoldenBoot,
     GoldenGlove,
-    DropDown,
+    Knockout,
   },
   data () {
     return {

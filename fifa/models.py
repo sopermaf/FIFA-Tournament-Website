@@ -94,16 +94,12 @@ class FixtureSide(models.Model):
         # player update
         self.player.updatePlayer(goals_scored, goals_allowed)
 
-    @classmethod
-    def createSide(cls, player, team):
-        team.chosen = True
-        return cls(player=player, team=team, goals=0)
-
 
 class Fixture(models.Model):
     fixtureSides = models.ManyToManyField(FixtureSide)
     date = models.DateTimeField(default=dt.now)
     game_played = models.BooleanField(default=False)
+    tv = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         sides = self.fixtureSides.all()

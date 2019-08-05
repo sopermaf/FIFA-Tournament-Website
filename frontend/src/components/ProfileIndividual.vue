@@ -2,11 +2,14 @@
   <v-container grid-list-md text-xs>
       <v-layout row wrap justify-center>
     
-        <v-flex md3 ma-2>
+        <v-flex md3 ml-2>
             <h2> {{player.name}} </h2>
             <img :src="`https://randomuser.me/api/portraits/men/${player.id }.jpg`">
-        </v-flex>
-        <v-flex md3 ma-2>
+        
+            <p>
+                <strong>Number of Apperances:</strong> 
+                {{ player.tournament_appearances }} 
+            </p>
             <p>
                 <strong>Best Overall Finish:</strong> 
                 {{ player.best_overall_finish }} 
@@ -25,7 +28,7 @@
             </p>
         </v-flex> 
     
-        <v-flex md3 ma-2 text-xs-center>
+        <v-flex md3 ml-2 text-xs-center>
             <h2> Teams Left </h2>
             <ProfileTeams :teams="player.teams_available" />
         </v-flex>
