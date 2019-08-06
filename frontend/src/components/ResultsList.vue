@@ -4,6 +4,7 @@
         <v-flex md8 >
             <v-data-table :headers="headers" :items="results" item-key="fixture.id" class="elevation-1" :pagination.sync="pagination">
               <template v-slot:items="props">
+                <td>{{ props.item.time}}</td>
                 <td>{{ props.item.fixture_sides[0].team}}</td>
                 <td>{{ props.item.fixture_sides[0].name}}</td>
                 <td>{{ props.item.fixture_sides[0].goals}}</td>
@@ -22,15 +23,18 @@ export default {
   data() {
     return {
       headers: [
-          { text: 'Team 1', sortable: false, value: 'name'},
-          { text: 'Player 1', sortable: false, value: 'name'},
-          { text: 'Goals 1', sortable: false, value: 'name'},
-          { text: 'Goals 2', sortable: false, value: 'name'},
-          { text: 'Player 2', sortable: false, value: 'name'},
-          { text: 'Team 2', sortable: false, value: 'name'},
+          { text: 'Time', sortable: true, value: 'time'},
+          { text: 'Team 1', sortable: true, value: 'fixture_sides[0].team'},
+          { text: 'Player 1', sortable: true, value: 'fixture_sides[0].name'},
+          { text: 'Goals 1', sortable: true, value: 'fixture_sides[0].goals'},
+          { text: 'Goals 2', sortable: true, value: 'fixture_sides[1].team'},
+          { text: 'Player 2', sortable: true, value: 'fixture_sides[1].name'},
+          { text: 'Team 2', sortable: true, value: 'fixture_sides[1].goals'},
         ],
       results: [],
-      pagination: 30,
+      pagination: {
+        rowsPerPage: 15
+      },
     };
   },
   mounted() {

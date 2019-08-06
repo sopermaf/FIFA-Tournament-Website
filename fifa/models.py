@@ -90,6 +90,7 @@ class FixtureSide(models.Model):
         # team update
         self.team.chosen = True
         self.team.played = True
+        self.team.save()
 
         # player update
         self.player.updatePlayer(goals_scored, goals_allowed)

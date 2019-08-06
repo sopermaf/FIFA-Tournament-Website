@@ -74,6 +74,8 @@ def addFixtureResult(request, player1, goals1, player2, goals2):
         print('ERROR: FIXTURE NOT FOUND')
         return HttpResponse("ERROR 404: FIXTURE DOESN'T EXIST")
 
+    # check both teams are set before changing anything?
+
     # update Fixture for Result and removal from Fixtures
     found_fixture.game_played = True
     found_fixture.date = datetime.now()
@@ -113,7 +115,8 @@ def viewFixtures(request):
 
         # add value to individual record
         fixture_ind['fixture_id'] = fixture.id
-        fixture_ind['timestamp'] = str(fixture.date)
+        fixture_ind['time'] = fixture.date.strftime('%H:%M')
+        fixture_ind['tv'] = fixture.tv
         
         # add a Fixture to fixtures dict
         fixtures_data.append(fixture_ind)
@@ -133,7 +136,7 @@ def viewFixtures(request):
 
         # add value to individual record
         result_ind['fixture_id'] = result.id
-        result_ind['timestamp'] = str(result.date)
+        result_ind['time'] = result.date.strftime('%H:%M')
 
         # add a Fixture to fixtures dict
         results_data.append(result_ind)
