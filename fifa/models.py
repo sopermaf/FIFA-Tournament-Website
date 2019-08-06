@@ -10,7 +10,9 @@ class Team(models.Model):
     star_rating = models.FloatField(default=0)
 
     def __str__(self):
-        return 'id: ' +  str(self.id) + ', ' + self.name + ": " + str(self.chosen)
+        out = '[id: ' +  str(self.id) + ', name:' + self.name
+        out += "] --- Chosen: " + str(self.chosen) + " ---- Played: " + str(self.played)
+        return out 
 
 
 class Player(models.Model):
@@ -94,6 +96,7 @@ class FixtureSide(models.Model):
 
         # player update
         self.player.updatePlayer(goals_scored, goals_allowed)
+        self.player.save()
 
 
 class Fixture(models.Model):

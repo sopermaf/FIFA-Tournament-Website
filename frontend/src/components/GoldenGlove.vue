@@ -2,7 +2,7 @@
   <v-container grid-list-md text-xs-center>
       <v-layout row wrap justify-center>
         <v-flex md5 >
-            <v-data-table :headers="headers" :items="playersGoldenGlove" item-key="player.id" class="elevation-1">
+            <v-data-table :headers="headers" :items="playersGoldenGlove" item-key="player.id" :pagination.sync="pagination" class="elevation-1">
               <template v-slot:items="props">
                 <td>{{ props.index + 1 }}</td>
                 <td>{{ props.item.name }}</td>
@@ -28,6 +28,9 @@ export default {
           { text: 'Player', align: 'left', sortable: false },
           { text: 'Goals Conceded', value: 'goals_against', sortable: false},
         ],
+      pagination: {
+        rowsPerPage: 15
+      },
     };
   },
   computed: {

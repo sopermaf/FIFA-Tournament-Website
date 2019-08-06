@@ -144,10 +144,20 @@ def viewFixtures(request):
     print('Fixtures: ' + str(fixtures_data))
     print('Results: ' + str(results_data))
 
+    # get tournament favourites
+    players = Player.objects.values('tournament_favourite')
+    votes = {}
+    for v in players:
+        if v['tournament_favourite'] in votes:
+            votes[v['tournament_favourite']] += 1
+        else:
+            votes[v['tournament_favourite']] = 1
+
     context = {
         "page_data": json.dumps({
             'fixtures': fixtures_data,
             'results': results_data,
+            'votes': votes,
             }),
     }
     return render(request, "fixtures.html", context)
