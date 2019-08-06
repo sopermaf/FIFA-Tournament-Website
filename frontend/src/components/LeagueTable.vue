@@ -61,6 +61,18 @@ export default {
           return -1;
         if (a.points < b.points)
           return 1;
+        if (a.points == b.points){
+          if (a.goal_difference > b.goal_difference)
+            return -1;
+          if (a.goal_difference < b.goal_diference)
+            return 1;
+          if (a.goals_difference == b.goal_difference){
+            if (a.goal_scored > b.goal_scored)
+            return -1;
+            if (a.goal_scored < b.goal_scored)
+              return 1;
+          }
+        }
         return 0;
       }
       return this.players.sort(compare);

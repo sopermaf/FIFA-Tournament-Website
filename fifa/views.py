@@ -37,14 +37,20 @@ def index(request):
     players = Player.objects.values('name', 'wins', 
               'draws', 'losses', 'points', 'goals_scored',
               'goals_against')
+    players = list(players)
+    for player in players:
+        player['goal_difference'] = player['goals_scored'] - player['goals_against']
 
     context = {
-        "page_data": json.dumps({'players': list(players)}),
+        "page_data": json.dumps({'players': players}),
     }
     return render(request, "app.html", context)
 
 
 def dataEntry(request):
+    '''
+    This returns the page for match input
+    '''
     players = Player.objects.values('name', 'wins', 
               'draws', 'losses', 'points', 'goals_scored',
               'goals_against')
@@ -65,7 +71,8 @@ def addFixtureResult(request, player1, goals1, player2, goals2):
             found_fixture = fixture
 
     if found_fixture == "":
-        raise Exception("Fixture Not Found")
+        print('ERROR: FIXTURE NOT FOUND')
+        return HttpResponse("ERROR 404: FIXTURE DOESN'T EXIST")
 
     # update Fixture for Result and removal from Fixtures
     found_fixture.game_played = True
@@ -78,7 +85,8 @@ def addFixtureResult(request, player1, goals1, player2, goals2):
         elif fs.player.name == player2:
             fs.setValues(goals2, goals1)
         else:
-            raise Exception('Unknown player in player field')
+            print('ERROR: PLAYER NOT FOUND WHILE ADDING RESULT')
+            return HttpResponse("ERROR 404: PLAYER NOT FOUND WHILE ADDING RESULT")
 
         fs.save()
 

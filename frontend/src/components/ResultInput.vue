@@ -88,13 +88,15 @@ import axios from "axios";
             this.search += this.match_players[1] + '/' + this.goals[1] + '/'
 
             axios.get(this.search).then(response => {
-                //this.candidates = response.data['candidates']
+                this.candidates = response.data['candidates']
+                this.response = response.data;
                 console.log(response)
             })
 
             // inform user
-            this.response = "Result Recorded Successfully";
-            this.response_color = "green";
+            //this.response = "Result Recorded Successfully";
+            
+            this.response_color = "red";
             
             // reset inputs
             this.match_players[0] = "Player 1";

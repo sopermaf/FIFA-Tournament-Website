@@ -1,37 +1,6 @@
 <template>
   <v-app>
-    <v-toolbar app>
-      <v-btn flat >
-        <span class="mr-2"> Home </span>
-      </v-btn>
-      
-      <v-btn flat >
-        <span class="mr-2"> League Standings </span>
-      </v-btn>
-
-      <v-btn flat href='/fifa/players/'>
-        <span class="mr-2"> Players </span>
-      </v-btn>
-
-      <v-btn flat href="/fifa/fixtures/">
-        <span class="mr-2"> Fixtures & Results </span>
-      </v-btn>
-
-      <v-btn flat >
-        <span class="mr-2"> History </span>
-      </v-btn>
-
-      <v-btn flat >
-        <span class="mr-2"> Shop </span>
-      </v-btn>
-
-      <v-spacer></v-spacer>
-      
-      <v-toolbar-title class="headline text-uppercase">
-        <span>FIFA</span>
-        <span class="font-weight-light">Tournament</span>
-      </v-toolbar-title>
-    </v-toolbar>
+    <Toolbar />
 
     <v-content>
       <v-tabs fixed-tabs color="cyan" dark slider-color="yellow">
@@ -65,19 +34,14 @@
         </v-tab-item>  
         <v-tab-item>
           <v-card flat>
-          <Knockout />
+          <Knockout :players="players"/>
           </v-card>
         </v-tab-item>  
       </v-tabs>
     </v-content>
 
-    <v-footer height="auto" color="primary lighten-1">
-      <v-layout justify-center row wrap>
-        <v-flex primary lighten-2 py-3 text-xs-center white--text md12>
-          &copy;2019 — <strong>Fifa Tournament</strong>
-        </v-flex>
-      </v-layout>
-    </v-footer>
+    <Footer />
+    
   </v-app>
 </template>
 
@@ -86,6 +50,8 @@ import LeagueTable from './components/LeagueTable.vue';
 import GoldenBoot from './components/GoldenBoot.vue';
 import GoldenGlove from './components/GoldenGlove.vue';
 import Knockout from './components/Knockout.vue';
+import Toolbar from './components/Toolbar.vue';
+import Footer from './components/Footer.vue';
 
 export default {
   name: 'App',
@@ -94,6 +60,8 @@ export default {
     GoldenBoot,
     GoldenGlove,
     Knockout,
+    Toolbar,
+    Footer,
   },
   data () {
     return {
