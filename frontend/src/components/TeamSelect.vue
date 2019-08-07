@@ -31,7 +31,24 @@
                 <span class=""> Submit Team </span>
             </v-btn>
 
-            <p mt-4 :style="{ color: response_color }"> {{ response }} </p>
+            <p mt-4 mb-4 :style="{ color: response_color }"> {{ response }} </p>
+        </v-flex>
+
+        <v-flex md12 mt-5 mb-3>
+          <h3> Cast Your Vote For Tournament Favourite </h3>
+        </v-flex>  
+        <v-flex md3 >
+                <select v-model="vote" class="player1" @click="response_vote =''">
+                    <option disabled value="">Select Favourite</option>
+                    <option v-for="v_option in voting" :key="v_option.id"> {{ v_option.name }} </option>
+                </select>
+        </v-flex>
+        <v-flex md12 mt-5>
+            <v-btn  @click="castVote()">
+                <span class=""> Vote </span>
+            </v-btn>
+
+            <p mt-4 mb-4 :style="{ color: response_color }"> {{ response_vote }} </p>
         </v-flex>
 
       </v-layout>
@@ -54,14 +71,19 @@ import axios from "axios";
         },
         teams: {
             type: Array
-        }
+        },
+        voting: {
+            type: Array
+        },
     }, 
     data: () => ({
         opponent_chosen: "",
         team_chosen: "",
         response_status: "",
         response_color: "",
+        response_vote: "",
         search: "No search made",
+        vote: "",
     }),
     methods: {
         findID(search_list, find_name) {
@@ -101,6 +123,33 @@ import axios from "axios";
             // reset inputs from JSON
             this.opponent_chosen = "";
             this.team_chosen = "";
+        },
+        castVote() {
+            // add check for fields being filled
+            if(this.vote == ""){
+                this.response_vote = "Please select a Player";
+                this.response_color = "red";
+                return
+            }
+            
+            // get id codes
+            this.opp_id = this.findID(this.players, this.opponent_chosen)
+            this.team_id = this.findID(this.teams, this.team_chosen)
+
+            //form the search and make request
+            this.search = '/fifa/vote/' + this.userID + '/'
+            this.search += this.vote + '/'
+
+            axios.get(this.search).then(response => {
+                console.log(response)
+            })
+
+            // inform user
+            this.response_vote = "Vote Recorded Successfully";
+            this.response_color = "green";
+            
+            // reset inputs from JSON
+            this.vote = "";
         },
         
     }

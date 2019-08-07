@@ -169,12 +169,16 @@ def playerTeamSelectionData(request, player_name):
     opponents = list(Player.objects.exclude(name=player_name).values('name', 'id'))
     opponents = getUnplayedOpponents(player_name)
 
+    voting_options = list(Player.objects.values('name', 'id'))
+    
+
     context = {
         "page_data": json.dumps({
             'unusedTeams': unusedTeams,
             'opponents': opponents,
             'username': player.name,
             'userID': player.id,
+            'voting_options': voting_options,
             }),
     }
     return render(request, "playerteam.html", context)
@@ -236,3 +240,10 @@ def viewPlayers(request):
         "page_data": json.dumps({'players': players}),
     }
     return render(request, "profile.html", context)
+
+
+def makeVote(request, voter, vote_made):
+    voter = Player.objects.get(id=voter)
+    voter.tournament_favourite = vote_made
+    voter.save()
+    return HttpResponse('Vote Counted')

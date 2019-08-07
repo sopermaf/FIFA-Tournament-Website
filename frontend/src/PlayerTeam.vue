@@ -3,7 +3,7 @@
     <Toolbar />
 
     <v-content>
-        <TeamSelect :user="username" :userID="userID" :players="opponents" :teams="teams"/>
+        <TeamSelect :user="username" :userID="userID" :players="opponents" :teams="teams" :voting="voting"/>
     </v-content>
 
     <Footer />
@@ -28,6 +28,7 @@ export default {
       teams: [],
       opponents: [],
       userID: '',
+      voting: [],
     }
   },
   mounted() {
@@ -36,6 +37,7 @@ export default {
     this.opponents = JSON.parse(this.data)['opponents'];
     this.username = JSON.parse(this.data)['username'];
     this.userID = JSON.parse(this.data)['userID'];
+    this.voting = JSON.parse(this.data)['voting_options'];
   },
   methods: {
   },
