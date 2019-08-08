@@ -11,4 +11,5 @@ urlpatterns = [
     path('fixtures/', views.viewFixtures),
     path('players/', views.viewPlayers),
     path('', views.homepage),
+    path('history/', views.historypage),
 ]

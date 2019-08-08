@@ -16,7 +16,7 @@
         <span class="mr-2"> Fixtures & Results </span>
       </v-btn>
 
-      <v-btn flat >
+      <v-btn flat href="/fifa/history/">
         <span class="mr-2"> History </span>
       </v-btn>
 

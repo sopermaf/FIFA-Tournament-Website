@@ -24,6 +24,10 @@ const pages = {
     'home_app': {
         entry: './src/home.js',
         chunks: ['chunk-vendors']
+    },
+    'history_app': {
+        entry: './src/history.js',
+        chunks: ['chunk-vendors']
     }
 }
 

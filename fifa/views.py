@@ -284,3 +284,7 @@ def homepage(request):
         }),
     }
     return render(request, "home.html", context)
+
+
+def historypage(request):
+    return render(request, "history.html")
