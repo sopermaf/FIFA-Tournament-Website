@@ -1,13 +1,13 @@
 <template>
-            <v-data-table :headers="headers" :items="teams" item-key="team.id" class="elevation-1">
-              <template v-slot:items="props">
-                <!--<td :style="{ backgroundColor: colorRank(props.index) }">
-                  {{ props.index + 1 }}
-                </td>-->
-                <td class="text-xs-left">{{ props.item.name }}</td>
-                <td class="text-xs-left">{{ props.item.star_rating }}</td>
-              </template>
-            </v-data-table>   
+  <v-data-table :headers="headers" :items="teams" item-key="team.id" class="elevation-1">
+    <template v-slot:items="props">
+      <!--<td :style="{ backgroundColor: colorRank(props.index) }">
+        {{ props.index + 1 }}
+      </td>-->
+      <td class="text-xs-left">{{ props.item.name }}</td>
+      <td class="text-xs-left">{{ props.item.star_rating }}</td>
+    </template>
+  </v-data-table>   
 </template>
 
 <script>

@@ -20,6 +20,10 @@ const pages = {
     'profile_app': {
         entry: './src/profile.js',
         chunks: ['chunk-vendors']
+    },
+    'home_app': {
+        entry: './src/home.js',
+        chunks: ['chunk-vendors']
     }
 }
 

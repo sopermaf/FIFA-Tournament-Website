@@ -20,7 +20,8 @@
           <v-card flat>
             <ResultsList />
           </v-card>
-        </v-tab-item>  
+        </v-tab-item> 
+
       </v-tabs>
     </v-content>
 

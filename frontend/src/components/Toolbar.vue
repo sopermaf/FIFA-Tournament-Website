@@ -1,10 +1,10 @@
 <template>
     <v-toolbar>
-    <v-btn flat href='/fifa/data'>
+      <v-btn flat href='/fifa/'>
         <span class="mr-2"> Home </span>
       </v-btn>
       
-      <v-btn flat href='/fifa/'>
+      <v-btn flat href='/fifa/league/'>
         <span class="mr-2"> League Standings </span>
       </v-btn>
 
@@ -24,12 +24,12 @@
         <span class="mr-2"> Shop </span>
       </v-btn>
 
-      <v-btn flat :href='url_user'>
+      <!--<v-btn flat :href='url_user'>
         <span class="mr-2"> Team Selection </span>
       </v-btn>
       <v-btn flat href='/fifa/data/'>
         <span class="mr-2"> Result Input </span>
-      </v-btn>
+      </v-btn>-->
 
       <v-spacer></v-spacer>
       

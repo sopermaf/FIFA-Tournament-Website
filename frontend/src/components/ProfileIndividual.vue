@@ -29,7 +29,7 @@
         </v-flex> 
     
         <v-flex md3 ml-2 text-xs-center>
-            <h2> Teams Left </h2>
+            <h2> Teams Remaining  </h2>
             <ProfileTeams :teams="player.teams_available" />
         </v-flex>
       </v-layout>

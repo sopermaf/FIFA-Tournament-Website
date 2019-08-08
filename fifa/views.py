@@ -153,11 +153,19 @@ def viewFixtures(request):
         else:
             votes[v['tournament_favourite']] = 1
 
+    # transform to label needed
+    points = []
+    for k, v in votes.items():
+        print(k,v)
+        point = {'label': k, 'value': int(v)}
+        points.append(point)
+    print(points)
+
     context = {
         "page_data": json.dumps({
             'fixtures': fixtures_data,
             'results': results_data,
-            'votes': votes,
+            'points': points,
             }),
     }
     return render(request, "fixtures.html", context)
@@ -169,7 +177,7 @@ def playerTeamSelectionData(request, player_name):
     opponents = list(Player.objects.exclude(name=player_name).values('name', 'id'))
     opponents = getUnplayedOpponents(player_name)
 
-    voting_options = list(Player.objects.values('name', 'id'))
+    voting_options = list(Player.objects.exclude(name=player_name).values('name', 'id'))
     
 
     context = {
@@ -247,3 +255,32 @@ def makeVote(request, voter, vote_made):
     voter.tournament_favourite = vote_made
     voter.save()
     return HttpResponse('Vote Counted')
+
+
+def homepage(request):
+    # get tournament favourites
+    players = Player.objects.values('tournament_favourite')
+    votes = {}
+    for v in players:
+        if v['tournament_favourite'] in votes:
+            votes[v['tournament_favourite']] += 1
+        else:
+            votes[v['tournament_favourite']] = 1
+
+    points = []
+    for k, v in votes.items():
+        print(k,v)
+        point = {'label': k, 'value': int(v)}
+        points.append(point)
+    print(points)
+
+    # return users
+    users = list(Player.objects.values('name', 'id'))
+
+    context = {
+        "page_data": json.dumps({
+            'poll': points,
+            'users': users,
+        }),
+    }
+    return render(request, "home.html", context)

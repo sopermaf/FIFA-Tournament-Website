@@ -6,13 +6,13 @@
           <h3> Select Your Teams for Each Game </h3>
         </v-flex>  
         <v-flex md3 >
-                <select v-model="opponent_chosen" class="player1" @click="response =''">
+                <select v-model="opponent_chosen" class="player1" @click="response_status =''">
                     <option disabled value="">Opponent</option>
                     <option v-for="p in players" :key="p.id"> {{ p.name }} </option>
                 </select>
         </v-flex>
         <v-flex md3 >
-                <select v-model="team_chosen" class="player2" @click="response =''">
+                <select v-model="team_chosen" class="player2" @click="response_status =''">
                     <option disabled value="">Team</option>
                     <option v-for="team in teams" :key="team.id"> {{ team.name }} </option>
                 </select>
@@ -31,7 +31,7 @@
                 <span class=""> Submit Team </span>
             </v-btn>
 
-            <p mt-4 mb-4 :style="{ color: response_color }"> {{ response }} </p>
+            <p mt-4 mb-4 :style="{ color: response_color }"> {{ response_status }} </p>
         </v-flex>
 
         <v-flex md12 mt-5 mb-3>
@@ -41,6 +41,8 @@
                 <select v-model="vote" class="player1" @click="response_vote =''">
                     <option disabled value="">Select Favourite</option>
                     <option v-for="v_option in voting" :key="v_option.id"> {{ v_option.name }} </option>
+                    <option> Robert McDaid </option>
+                    <option> Ferd </option>
                 </select>
         </v-flex>
         <v-flex md12 mt-5>
@@ -117,7 +119,7 @@ import axios from "axios";
             })
 
             // inform user
-            this.response_status = "Result Recorded Successfully. Reload Page";
+            this.response_status = "Team Selected Successfully";
             this.response_color = "green";
             
             // reset inputs from JSON
