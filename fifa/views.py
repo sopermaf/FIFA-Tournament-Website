@@ -260,6 +260,18 @@ def makeVote(request, voter, vote_made):
 def homepage(request):
     # get tournament favourites
     players = Player.objects.values('tournament_favourite')
+    points = [
+        {'name': 'Jim Fogarty', 'votes': 0},
+        {'name': 'Johnny McNulty', 'votes': 0},
+        {'name': 'Fabian Mak', 'votes': 0},
+        {'name': 'Kunal Kapoor', 'votes': 0},
+        {'name': 'Cameron McBain', 'votes': 0},
+        {'name': 'Niall Burke', 'votes': 0},
+        {'name': 'Oisín Devilly', 'votes': 0},
+        {'name': 'Lyes Djennadi', 'votes': 0},
+        {'name': "Peter O'Donnell", 'votes': 0},
+        {'name': 'Daniel Whitaker', 'votes': 0},
+    ]
     votes = {}
     for v in players:
         if v['tournament_favourite'] in votes:
@@ -267,19 +279,23 @@ def homepage(request):
         else:
             votes[v['tournament_favourite']] = 1
 
-    points = []
-    for k, v in votes.items():
-        print(k,v)
-        point = {'label': k, 'value': int(v)}
-        points.append(point)
+    for player in points:
+        if player['name'] in votes:
+            player['votes'] = votes[player['name']]
+
+    votes = []
+    for player in points:
+        votes.append(player['votes'])
+        
     print(points)
+    print(votes)
 
     # return users
     users = list(Player.objects.values('name', 'id'))
 
     context = {
         "page_data": json.dumps({
-            'poll': points,
+            'poll': votes,
             'users': users,
         }),
     }
@@ -288,3 +304,7 @@ def homepage(request):
 
 def historypage(request):
     return render(request, "history.html")
+
+
+def localpage(request):
+    return render(request, "local.html")

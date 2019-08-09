@@ -12,4 +12,5 @@ urlpatterns = [
     path('players/', views.viewPlayers),
     path('', views.homepage),
     path('history/', views.historypage),
+    path('test/', views.localpage),
 ]

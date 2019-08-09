@@ -24,7 +24,7 @@
           <!-- Yearly Text -->
             <!-- Description -->
             <span v-for="award in awards" :key="award.Year">
-              <v-flex md12 text-xs-left elevation-4 ma-2>
+              <v-flex md12 text-xs-left elevation-4 ma-2 class="year_desc">
                   <h2>{{award.Year}}</h2>
                   <p>{{descriptions[award.Year]}}</p>
                   <br>
@@ -105,5 +105,8 @@ export default {
 
 <style>
 
+.year_desc:hover {
+  transform: scale(1.1);
+}
 
 </style>

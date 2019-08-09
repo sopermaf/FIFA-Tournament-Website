@@ -32,12 +32,11 @@ const pages = {
 }
 
 module.exports = {
-    baseUrl: "http://127.0.0.1:8080/",
+    publicPath: "http://192.168.0.115:8080/",
     outputDir: './dist/',
     pages: pages,
 
     chainWebpack: config => {
-        
         config.optimization
             .splitChunks({
                 cacheGroups: {
