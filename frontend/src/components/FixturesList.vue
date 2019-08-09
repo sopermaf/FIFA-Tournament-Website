@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-md text-xs-center>
       <v-layout row wrap justify-center>
-        <v-flex md5 >
+        <v-flex md6 >
             <v-data-table :headers="headers" :items="fixtures" item-key="fixture.id" class="elevation-1" :pagination.sync="pagination">
               <template v-slot:items="props">
                 <td> {{ props.item.time }}</td>

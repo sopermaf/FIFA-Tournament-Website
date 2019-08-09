@@ -8,9 +8,9 @@
           <!-- HEADER -->
           <v-flex md10 text-xs-center>
               <h1 text-s-center> Welcome! </h1>
-              <!--
-              <img src="https://i.ibb.co/rd4dg9m/3-D-Logo-White-Controller-PNG.png" >
-              -->
+              
+              <img :src="iconUrl" >
+              
           </v-flex>
           
           <!-- MAIN TEXT -->
@@ -34,8 +34,7 @@
           <v-flex md10 text-xs-center>
             <select v-model="chosen" class="player1">
                 <option disabled value="">Select User</option>
-                <option v-for="user in users" :key="user.id"> {{ user.name }} </option>-->
-                <option> Ferd </option>
+                <option v-for="user in users" :key="user.id"> {{ user.name }} </option>
             </select>
           </v-flex>
           <v-flex md10 mt-5 mb-5 text-xs-center>
@@ -45,7 +44,8 @@
           </v-flex>
 
           <!-- POLL -->
-          <v-flex md10 >
+          <v-flex md12 text-xs-center >
+            <h2> Tournament Favourite Live Poll </h2>
             <PollViewer />
           </v-flex>
         </v-layout>
@@ -85,18 +85,29 @@ export default {
       return this.chosen;
     },
   },
+  computed: {
+    iconUrl () {
+      return require('./assets/fifa_logo.png')
+      // The path could be '../assets/img.png', etc., which depends on where your vue file is
+    }
+  }
 }
 </script>
 
 <style>
 
-.profile {
-  border: 2px solid black;
-  border-radius: 25px;
-}
-
 .player1 {
     background-color: lightcoral;
+     border: 2px solid black;
+    border-radius: 5px;
+    text-align: right;
+    text-indent: 5px;
+    padding-right: 5px;
+}
+
+img {
+  width: 30%;
+  height: 30%;
 }
 
 </style>
