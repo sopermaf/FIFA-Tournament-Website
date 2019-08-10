@@ -5,6 +5,7 @@
         <v-flex md3 ml-2>
             <h2> {{player.name}} </h2>
             <img :src="`https://randomuser.me/api/portraits/men/${player.id }.jpg`">
+            <!--<img :src="iconUrl" class="profile_pic">-->
         
             <p>
                 <strong>Number of Apperances:</strong> 
@@ -51,11 +52,22 @@ export default {
     data: () => ({
     }),
     methods: {        
+    },
+    computed: {
+        iconUrl () {
+        return require('@/assets/fifa_logo.png')
+        // The path could be '../assets/img.png', etc., which depends on where your vue file is
+        }
     }
 }
 </script>
 
 <style>
+
+img {
+    width: 128px;
+    height: 128px;
+}
 
 
 

@@ -5,6 +5,18 @@ from .forms import NameForm
 import json
 from datetime import datetime
 
+passwords = {
+        'Niall Burke': '0808',
+        'Oisín Devilly': '0909',
+        'Lyes Djennadi': '1010',
+        'Jim Fogarty': '1111',
+        'Kunal Kapoor': '1212',
+        'Fabian Mak': '1313',
+        'Cameron McBain': '1414',
+        'Johnny McNulty': '1515',
+        "Peter O'Donnell": '1616',
+        'Daniel Whitaker': '1717',
+}
 
 # aux funct
 def getUnplayedOpponents(player_name):
@@ -171,8 +183,15 @@ def viewFixtures(request):
     return render(request, "fixtures.html", context)
 
 
-def playerTeamSelectionData(request, player_name):
+def playerTeamSelectionData(request, player_name, password):
     player = Player.objects.get(name=player_name)
+
+    # security check
+    print("Password:" + password)
+    if passwords[player_name] != password:
+        return HttpResponse("Incorrect Password")
+    
+
     unusedTeams = player.getUnusedTeams()
     opponents = list(Player.objects.exclude(name=player_name).values('name', 'id'))
     opponents = getUnplayedOpponents(player_name)

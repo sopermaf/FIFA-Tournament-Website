@@ -7,9 +7,9 @@
         <v-layout row wrap justify-center>
           <!-- HEADER -->
           <v-flex md10 text-xs-center>
-              <h1 text-s-center> Welcome! </h1>
+              <h1 > Welcome! </h1>
               
-              <img :src="iconUrl" >
+              <img :src="iconUrl" class="main_logo">
               
           </v-flex>
           
@@ -31,14 +31,18 @@
           </v-flex>
 
           <!-- LOGIN OPTION -->
-          <v-flex md10 text-xs-center>
+          <v-flex md10 mt-4 text-xs-center>
+            <h1> Team Selection Login</h1>
             <select v-model="chosen" class="player1">
                 <option disabled value="">Select User</option>
                 <option v-for="user in users" :key="user.id"> {{ user.name }} </option>
             </select>
           </v-flex>
+          <v-flex md10 mt-2 text-xs-center>
+            <input v-model="password" placeholder="Enter Password" class="password_box">
+          </v-flex>
           <v-flex md10 mt-5 mb-5 text-xs-center>
-            <v-btn :href="'/fifa/playerInput/' + chosen + '/'">
+            <v-btn :href="'/fifa/playerInput/' + chosen + '/' + password + '/'">
                 <span class=""> Login </span>
             </v-btn>
           </v-flex>
@@ -72,7 +76,8 @@ export default {
     return {
       players: [],
       users: [],
-      chosen: 'Niall Burke',
+      chosen: '',
+      password: "",
     }
   },
   mounted() {
@@ -105,9 +110,15 @@ export default {
     padding-right: 5px;
 }
 
-img {
+.password_box {
+  background-color: lightcoral;
+  border: 2px solid black;
+}
+
+.main_logo {
   width: 30%;
-  height: 30%;
+  height: 65%;
+  padding-top: 5%;
 }
 
 </style>

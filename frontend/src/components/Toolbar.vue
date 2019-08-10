@@ -35,7 +35,8 @@
       
       <v-toolbar-title class="headline text-uppercase">
         <span>FIFA</span>
-        <span class="font-weight-light">Tournament</span>
+        <span class="font-weight-light">2019</span>
+        <!--<img :src="iconUrl" class="toolbar_logo">-->
       </v-toolbar-title>
     </v-toolbar>
 </template>
@@ -48,5 +49,19 @@ export default {
       url_user: '/fifa/playerInput/Cameron McBain/'
     }
   },
+  computed: {
+    iconUrl () {
+      return require('@/assets/fifa_logo.png')
+      // The path could be '../assets/img.png', etc., which depends on where your vue file is
+    }
+  }
 }
 </script>
+
+<style>
+.toolbar_logo {
+  max-width: 20%;
+  max-height: 20%;
+  float: right;
+}
+</style>
