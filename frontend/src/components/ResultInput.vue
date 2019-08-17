@@ -47,6 +47,9 @@
             <v-btn  @click="addResult()">
                 <span class=""> Submit Result </span>
             </v-btn>
+            <v-btn @click="addFixture()">
+                <span class=""> Add Fixture </span>
+            </v-btn>
 
             <p mt-4 :style="{ color: response_color }"> {{ response }} </p>
         </v-flex>
@@ -86,6 +89,38 @@ import axios from "axios";
             //form the search and make request
             this.search = '/fifa/input/' + this.match_players[0] + '/' + this.goals[0] + '/'
             this.search += this.match_players[1] + '/' + this.goals[1] + '/'
+
+            axios.get(this.search).then(response => {
+                this.candidates = response.data['candidates']
+                this.response = response.data;
+                console.log(response)
+            })
+
+            // inform user
+            //this.response = "Result Recorded Successfully";
+            
+            this.response_color = "red";
+            
+            // reset inputs
+            this.match_players[0] = "Player 1";
+            this.match_players[1] = "Player 2";
+            this.goals[0] = 0;
+            this.goals[1] = 0;
+        },
+        addFixture() {
+            if(this.match_players[0] == "Player 1" || this.match_players[1] == 'Player 2'){
+                this.response = "Please select two players for this game";
+                this.response_color = "red"
+                return
+            } else if (this.match_players[0] == this.match_players[1]) {
+                this.response = "Both players cannot be the same";
+                this.response_color = "red"
+                return;
+            }
+            
+            //form the search and make request
+            this.search = '/fifa/create/' + this.match_players[0] + '/'
+            this.search += this.match_players[1] + '/1/17:00'
 
             axios.get(this.search).then(response => {
                 this.candidates = response.data['candidates']

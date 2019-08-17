@@ -36,6 +36,7 @@
             <select v-model="chosen" class="player1">
                 <option disabled value="">Select User</option>
                 <option v-for="user in users" :key="user.id"> {{ user.name }} </option>
+                <option>admin</option>
             </select>
           </v-flex>
           <v-flex md10 mt-2 text-xs-center>

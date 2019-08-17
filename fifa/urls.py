@@ -12,5 +12,5 @@ urlpatterns = [
     path('players/', views.viewPlayers),
     path('', views.homepage),
     path('history/', views.historypage),
-    path('test/', views.localpage),
+    path('create/<str:player1>/<str:player2>/<int:tv>/<str:time>', views.createFixture),
 ]

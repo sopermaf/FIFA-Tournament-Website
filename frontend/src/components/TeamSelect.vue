@@ -34,6 +34,14 @@
             <p mt-4 mb-4 :style="{ color: response_color }"> {{ response_status }} </p>
         </v-flex>
 
+        <v-flex md12 mt-5>
+            <h3>Chosen Team</h3>
+            {{list_chosen_teams}}
+            <ul>
+                <li v-for="t in list_chosen_teams" :key="t.id">{{t.name}}  </li>
+            </ul>
+        </v-flex>
+
         <v-flex md12 mt-5 mb-3>
           <h3> Cast Your Vote For Tournament Favourite </h3>
         </v-flex>  
@@ -41,8 +49,6 @@
                 <select v-model="vote" class="player1" @click="response_vote =''">
                     <option disabled value="">Select Favourite</option>
                     <option v-for="v_option in voting" :key="v_option.id"> {{ v_option.name }} </option>
-                    <option> Robert McDaid </option>
-                    <option> Ferd </option>
                 </select>
         </v-flex>
         <v-flex md12 mt-5>
@@ -86,6 +92,7 @@ import axios from "axios";
         response_vote: "",
         search: "No search made",
         vote: "",
+        list_chosen_teams: []
     }),
     methods: {
         findID(search_list, find_name) {
@@ -154,6 +161,10 @@ import axios from "axios";
             this.vote = "";
         },
         
+    },
+    mounted() {
+        this.data = document.body.getAttribute('data');
+        this.list_chosen_teams = JSON.parse(this.data)['chosen_teams'];
     }
   }
 </script>

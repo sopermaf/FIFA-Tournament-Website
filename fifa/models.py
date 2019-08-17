@@ -147,3 +147,24 @@ class Fixture(models.Model):
                 result = side
 
         return result
+
+    @staticmethod
+    def createFixture(player1, player2, tv, time):
+        time_parsed = dt.strptime(time, "%H:%M")
+        # set up the fixture sides and save
+        player1 = Player.objects.get(name=player1)
+        fixture1 = FixtureSide(player=player1)
+
+        player2 = Player.objects.get(name=player2)
+        fixture2 = FixtureSide(player=player2)
+        
+
+        # set up the fixture and save
+        fixture1.save()
+        fixture2.save()
+
+        new_fixture = Fixture(tv=tv, date=time_parsed)
+        new_fixture.save()
+        new_fixture.fixtureSides.add(fixture1)
+        new_fixture.fixtureSides.add(fixture2)
+        new_fixture.save()

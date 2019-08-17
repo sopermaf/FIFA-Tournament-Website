@@ -16,6 +16,7 @@ passwords = {
         'Johnny McNulty': '1515',
         "Peter O'Donnell": '1616',
         'Daniel Whitaker': '1717',
+        'admin': 'longpassword'
 }
 
 # aux funct
@@ -184,20 +185,32 @@ def viewFixtures(request):
 
 
 def playerTeamSelectionData(request, player_name, password):
+    # admin login afte correct password
+    if player_name == "admin" and passwords[player_name] == password:
+        return dataEntry(request)
+
     player = Player.objects.get(name=player_name)
 
     # security check
     print("Password:" + password)
     if passwords[player_name] != password:
-        return HttpResponse("Incorrect Password")
-    
+        return HttpResponse("Incorrect Password")    
 
     unusedTeams = player.getUnusedTeams()
     opponents = list(Player.objects.exclude(name=player_name).values('name', 'id'))
     opponents = getUnplayedOpponents(player_name)
 
-    voting_options = list(Player.objects.exclude(name=player_name).values('name', 'id'))
+    voting_options = list(Player.objects.values('name', 'id'))
     
+    # add in chosen
+    chosen = []
+    for team in player.teams.all():
+        if team.chosen:
+            team_data = {
+                'id': team.id,
+                'name': team.name,
+            }
+            chosen.append(team_data)
 
     context = {
         "page_data": json.dumps({
@@ -206,6 +219,7 @@ def playerTeamSelectionData(request, player_name, password):
             'username': player.name,
             'userID': player.id,
             'voting_options': voting_options,
+            'chosen_teams': chosen,
             }),
     }
     return render(request, "playerteam.html", context)
@@ -325,5 +339,7 @@ def historypage(request):
     return render(request, "history.html")
 
 
-def localpage(request):
-    return render(request, "local.html")
+def createFixture(request, player1, player2, tv=0, time="15:00"):
+    # Time Format : 13:01 (24hr clock)
+    Fixture.createFixture(player1, player2, tv, time)
+    return HttpResponse("Fixture Added")

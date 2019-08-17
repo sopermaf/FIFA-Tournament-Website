@@ -32,7 +32,7 @@ const pages = {
 }
 
 module.exports = {
-    publicPath: "http://192.168.0.115:8080/",
+    publicPath: "http://192.168.0.119:8080/",
     outputDir: './dist/',
     pages: pages,
 
