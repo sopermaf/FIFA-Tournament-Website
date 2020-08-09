@@ -33,3 +33,7 @@ yarn-error.log*
 
 # Misc
 media
+
+# SQLlite DB files
+db.sqlite3
+db.json
