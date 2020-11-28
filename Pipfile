@@ -8,8 +8,7 @@ verify_ssl = true
 [packages]
 pytz = "==2019.1"
 sqlparse = "==0.3.0"
-django-webpack-loader = "==0.6.0"
-Django = "==2.2.2"
+django = ">=3"
 
 [requires]
 python_version = "3.8"
