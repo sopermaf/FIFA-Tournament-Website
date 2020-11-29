@@ -1,16 +1,9 @@
 # O/S files
 .DS_Store
 
-# Node temporary
-node_modules
-dist
-
 # Python temporary
 __pycache__
 *.pyc
-
-# Webpack temporary
-webpack-stats.json
 
 # local env files
 .env.local
