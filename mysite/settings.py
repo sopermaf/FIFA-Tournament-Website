@@ -21,8 +21,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '62w-s90@*w!#zqji6r_)5-kibsmy#v_l((+n4_#eej$-78n74z'
-TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
-FRONTEND_DIR = os.path.join(BASE_DIR, 'frontend')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -34,7 +32,6 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'fifa.apps.FifaConfig',
-    'webpack_loader',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -58,7 +55,6 @@ ROOT_URLCONF = 'mysite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATES_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -128,11 +124,3 @@ STATICFILES_DIRS = (
 STATIC_ROOT = os.path.join(BASE_DIR, 'public')
 
 STATIC_URL = '/static/'
-
-WEBPACK_LOADER = {
-    'DEFAULT': {
-        'CACHE': not DEBUG,
-        'BUNDLE_DIR_NAME': '/bundles/',  # must end with slash
-        'STATS_FILE': os.path.join(FRONTEND_DIR, 'webpack-stats.json'),
-    }
-}
