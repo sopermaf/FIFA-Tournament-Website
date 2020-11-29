@@ -2,8 +2,8 @@ from django.shortcuts import render
 from .models import Player, Game, Team
 
 
-def leaderboard(request):
+def dashboard(request):
     players = Player.objects.all()
     return render(
-        request, 'fifa/leaderboard.html', {'players': players}
+        request, 'fifa/dashboard.html', {'players': players}
     )
