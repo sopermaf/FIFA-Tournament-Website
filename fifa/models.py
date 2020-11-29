@@ -1,170 +1,58 @@
 from django.db import models
-from datetime import datetime as dt
-
-
-# Create your models here.
-class Team(models.Model):
-    name = models.CharField(max_length=200)
-    chosen = models.BooleanField(default=False)
-    played = models.BooleanField(default=False)
-    star_rating = models.FloatField(default=0)
-
-    def __str__(self):
-        out = '[id: ' +  str(self.id) + ', name:' + self.name
-        out += "] --- Chosen: " + str(self.chosen) + " ---- Played: " + str(self.played)
-        return out 
+from django.utils import timezone
 
 
 class Player(models.Model):
-    # identity info
-    name = models.CharField(max_length=200)
-    teams = models.ManyToManyField(Team, null=True, blank=True)
+    name = models.CharField(max_length=50, unique=True)
+    appearances = models.PositiveSmallIntegerField(default=0)
+    best_overall_finish = models.PositiveSmallIntegerField(default=0)
+    best_league_finish = models.PositiveSmallIntegerField(default=0)
+    favourite = models.ForeignKey('self', blank=True, null=True, on_delete=models.SET_NULL)
+    description = models.TextField(blank=True, null=True)
 
-    # player profile
-    tournament_appearances = models.PositiveIntegerField(default=0)
-    best_overall_finish = models.CharField(max_length=50, default="no overall finish", blank=True, null=True)
-    best_league_finish = models.CharField(max_length=50, default="no league finish", blank=True, null=True)
-    tournament_favourite = models.CharField(max_length=100, default="no favourite", blank=True, null=True)
-    description = models.CharField(max_length=20000, default="no desc", blank=True, null=True)
+    points = models.PositiveSmallIntegerField(default=0)
+    wins = models.PositiveSmallIntegerField(default=0)
+    losses = models.PositiveSmallIntegerField(default=0)
+    draws = models.PositiveSmallIntegerField(default=0)
+    goal_difference = models.PositiveSmallIntegerField(default=0)
+    goals_scored = models.PositiveSmallIntegerField(default=0)
+    goals_conceded =models.PositiveSmallIntegerField(default=0)
 
-    # statistics
-    wins = models.PositiveIntegerField(default=0)
-    draws = models.PositiveIntegerField(default=0)
-    losses = models.PositiveIntegerField(default=0)
-    points = models.PositiveIntegerField(default=0)
-    goals_scored = models.PositiveIntegerField(default=0)
-    goals_against = models.PositiveIntegerField(default=0)
-
-    def __str__(self):
-        return 'id: ' +  str(self.id) + ', ' +self.name
-
-    def allTeams(self):
-       return self.teams.all()
-
-    def getUnusedTeams(self):
-        unusedTeams = self.teams.all().filter(chosen=False).values('id', 'name')
-        return list(unusedTeams)
-
-    def getUnplayedTeams(self):
-        unplayedTeams = self.teams.all().filter(played=False).values('id', 'name', 'star_rating')
-        return list(unplayedTeams)
-
-    def calculateGamesPlayed(self):
-        return self.wins + self.draws + self.losses
-
-    def calculateGoalDiff(self):
-        return self.goals_scored + self.goals_against
-
-    def updatePlayer(self, myGoals, opponentGoals):
-        self.goals_scored += myGoals
-        self.goals_against += opponentGoals
-
-        if myGoals == opponentGoals:
-            self.points += 1
-            self.draws += 1
-        elif myGoals > opponentGoals:
-            self.points += 3
-            self.wins += 1
-        elif myGoals < opponentGoals:
-            self.losses += 1
-
-
-class FixtureSide(models.Model):
-    player = models.ForeignKey(Player, on_delete=models.CASCADE)
-    team = models.ForeignKey(Team, on_delete=models.SET_NULL, blank=True, null=True)
-    goals = models.PositiveIntegerField(default=None, blank=True, null=True)
-    team_chosen = models.BooleanField(default=False)
+    class Meta:
+        ordering = ('points', 'goal_difference', 'goals_scored', 'goals_conceded')
 
     def __str__(self):
-        return 'id: ' +  str(self.id) + ', ' +self.player.name + ' ' + str(self.team_chosen)
-
-    def setTeamChosen(self, team_id):
-        # update team chosen
-        self.team.chosen = True
-
-        # fixture side variables
-        self.team_chosen = True
-
-    def setValues(self, goals_scored, goals_allowed):
-        # fixture side update
-        self.goals = goals_scored
-
-        # team update
-        self.team.chosen = True
-        self.team.played = True
-        self.team.save()
-
-        # player update
-        self.player.updatePlayer(goals_scored, goals_allowed)
-        self.player.save()
+        return self.name
 
 
-class Fixture(models.Model):
-    fixtureSides = models.ManyToManyField(FixtureSide)
-    date = models.DateTimeField(default=dt.now)
-    game_played = models.BooleanField(default=False)
-    tv = models.PositiveIntegerField(default=0)
+
+class Team(models.Model):
+    player = models.ForeignKey(Player, related_name='teams', on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    stars = models.FloatField(default=0)
 
     def __str__(self):
-        sides = self.fixtureSides.all()
-        info = ""
+        return self.name
 
-        if self.game_played:
-            for side in sides:
-                info += side.player.name + " " + str(side.goals) + " "
-            return info
 
-        for side in sides:
-            info += side.player.name + " "
+class Game(models.Model):
+    class TVChoices(models.TextChoices):
+        MAIN = 'M'
+        EXTRA = 'E'
 
-        return 'id: ' +  str(self.id) + ', ' + str(self.game_played) + ": " + info
+    home_player = models.ForeignKey(Player, on_delete=models.CASCADE, related_name='home_games')
+    home_team = models.ForeignKey(Team, on_delete=models.SET_NULL, blank=True, null=True, related_name='home_games')
+    home_goals = models.PositiveSmallIntegerField(default=0)
+    away_player = models.ForeignKey(Player, on_delete=models.CASCADE, related_name='away_games')
+    away_team = models.ForeignKey(Team, on_delete=models.SET_NULL, blank=True, null=True, related_name='away_games')
+    away_goals = models.PositiveSmallIntegerField(default=0)
 
-    def listPlayers(self):
-        sides = self.fixtureSides.all()
-        names = []
-        # get the player names
-        for side in sides:
-            names.append(side.player.name)
-        return names
+    time = models.TimeField(default=timezone.now)
+    played = models.BooleanField(default=False)
+    tv = models.CharField(choices=TVChoices.choices, max_length=1)
 
-    def listSideDetails(self):
-        sides = self.fixtureSides.all()
-        side_info = {}
-
-        for side in sides:
-            side_info[side.player.name] = {
-                'team_chosen': side.team_chosen,
-                'fs_id': side.id,
-            }
-        return side_info
-
-    def getSide(self, player_name):
-        sides = self.fixtureSides.all()
-        result = None
-
-        for side in sides:
-            if side.player.name == player_name:
-                result = side
-
-        return result
-
-    @staticmethod
-    def createFixture(player1, player2, tv, time):
-        time_parsed = dt.strptime(time, "%H:%M")
-        # set up the fixture sides and save
-        player1 = Player.objects.get(name=player1)
-        fixture1 = FixtureSide(player=player1)
-
-        player2 = Player.objects.get(name=player2)
-        fixture2 = FixtureSide(player=player2)
-        
-
-        # set up the fixture and save
-        fixture1.save()
-        fixture2.save()
-
-        new_fixture = Fixture(tv=tv, date=time_parsed)
-        new_fixture.save()
-        new_fixture.fixtureSides.add(fixture1)
-        new_fixture.fixtureSides.add(fixture2)
-        new_fixture.save()
+    def __str__(self):
+        return 'Fixture(p1="{}", p2="{}")'.format(
+            self.home_player.name,
+            self.away_player.name,
+        )
