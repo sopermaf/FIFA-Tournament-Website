@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block title %} Players {% endblock %}
+
+{% block content %}
+    <h1> Players </h1>
+
+    {% for player in players %}
+        <h3>{{ player.user.username|capfirst }}</h3>
+        
+        <div class="player_stats">
+            <ul>
+                <li> Appearances: {{ player.appearances }} </li>
+                <li> Best Overall Finish: {{ player.best_overall_finish|ordinal }} </li>
+                <li> Best League Finish: {{ player.best_league_finish|ordinal }} </li>
+                <li> Favourite {{ player.favourite.user.username }} </li>
+            </ul>
+        </div>
+
+        <div class="player_description">
+            <p> {{ player.description }} </p>
+        </div>
+    {% endfor %}
+{% endblock %}
