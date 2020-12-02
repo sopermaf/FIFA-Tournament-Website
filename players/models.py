@@ -18,12 +18,3 @@ class Player(models.Model):
 
     def __str__(self):
         return '{}'.format(self.user.username)
-
-
-class Team(models.Model):
-    player = models.ForeignKey(Player, on_delete=models.CASCADE, related_name='teams')
-    name = models.CharField(max_length=60)
-    stars = models.DecimalField(max_digits=2, decimal_places=1)
-
-    def __str__(self):
-        return self.name

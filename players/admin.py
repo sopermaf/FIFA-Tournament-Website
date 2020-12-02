@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from .models import Player, Team
+from games.models import Team
+from .models import Player
 
 
 class TeamInline(admin.TabularInline):

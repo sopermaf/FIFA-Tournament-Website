@@ -2,7 +2,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
 
-from players.models import Player, Team
+from players.models import Player
 
 
 class Game(models.Model):
@@ -11,14 +11,13 @@ class Game(models.Model):
         EXTRA = 'extra'
 
     players = models.ManyToManyField(Player, related_name='games')
-    teams = models.ManyToManyField(Team)
     time = models.TimeField(default=timezone.now)
     played = models.BooleanField(default=False)
     tv = models.CharField(choices=TVChoices.choices, max_length=10)
     modified = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ('-modified')
+        ordering = ('-modified', )
 
     def __str__(self):
         return 'Fixture({})'.format(
@@ -26,10 +25,20 @@ class Game(models.Model):
         )
 
     def clean(self):
-        if self.players.count() > 2 or self.players.count() > self.teams.count():
+        if self.players.count() > 2:
             raise ValidationError({
                 'players': 'Only 2 players per game',
                 'teams': 'Only 2 teams per game'
             })
 
 
+class Team(models.Model):
+    name = models.CharField(max_length=60)
+    stars = models.DecimalField(max_digits=2, decimal_places=1)
+    player = models.ForeignKey(Player, on_delete=models.CASCADE, related_name='teams')
+    game = models.ForeignKey(Game, on_delete=models.SET_NULL, blank=True, null=True)
+    goals_scored = models.PositiveSmallIntegerField(default=0)
+    goals_conceded = models.PositiveSmallIntegerField(default=0)
+
+    def __str__(self):
+        return self.name
