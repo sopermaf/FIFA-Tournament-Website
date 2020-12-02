@@ -5,5 +5,6 @@ from django.conf.urls import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include("fifa.urls")),
+    # path('games/', include("games.urls", namespace='games')),
+    path('players/', include("players.urls", namespace='players')),
 ]
