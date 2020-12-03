@@ -20,23 +20,14 @@ class Game(models.Model):
         ordering = ('-modified', )
 
     def __str__(self):
-        return 'Fixture({})'.format(
-            ' vs '.join(player.user.username for player in self.players.all())
-        )
-
-    def clean(self):
-        if self.players.count() > 2:
-            raise ValidationError({
-                'players': 'Only 2 players per game',
-                'teams': 'Only 2 teams per game'
-            })
+        return 'Fixture({})'.format(' vs '.join(str(player) for player in self.players.all()))
 
 
 class Team(models.Model):
     name = models.CharField(max_length=60)
     stars = models.DecimalField(max_digits=2, decimal_places=1)
     player = models.ForeignKey(Player, on_delete=models.CASCADE, related_name='teams')
-    game = models.ForeignKey(Game, on_delete=models.SET_NULL, blank=True, null=True)
+    game = models.ForeignKey(Game, on_delete=models.SET_NULL, blank=True, null=True, related_name='teams')
     goals_scored = models.PositiveSmallIntegerField(default=0)
     goals_conceded = models.PositiveSmallIntegerField(default=0)
 
