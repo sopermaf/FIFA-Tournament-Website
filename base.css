@@ -262,6 +262,7 @@ img.user-detail {
 }
 .image-container { margin-top:40px; }
 
+/* Tables */
 
 table, td, th {
     border: 2px solid black;
@@ -270,8 +271,4 @@ table, td, th {
 td, th {
     padding: 2px;
     text-align-last: center;
-}
-
-.success {
-    color: #0ac33e;
 }

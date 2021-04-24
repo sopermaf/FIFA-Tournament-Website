@@ -7,14 +7,21 @@
     <h1> Players </h1>
 
     {% for player in players %}
-        <h3>{{ player.user.username|capfirst }}</h3>
+        <h2>{{ player.user.username|capfirst }}</h2>
         
         <div class="player_stats">
             <ul>
-                <li> Appearances: {{ player.appearances }} </li>
-                <li> Best Overall Finish: {{ player.best_overall_finish|ordinal }} </li>
-                <li> Best League Finish: {{ player.best_league_finish|ordinal }} </li>
-                <li> Favourite {{ player.favourite.user.username }} </li>
+                <li> <b> Appearances: </b> {{ player.appearances }} </li>
+                <li> <b> Best Overall Finish: </b> {{ player.best_overall_finish|ordinal }} </li>
+                <li> <b> Best League Finish: </b> {{ player.best_league_finish|ordinal }} </li>
+                <li> 
+                    <b> Favourite: </b>
+                    {% if player.favourite %}
+                        {{ player.favourite.user.username }}
+                    {% else %}
+                        Undecided
+                    {% endif %}
+                </li>
             </ul>
         </div>
 

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %} Players {% endblock %}
+
+{% block content %}
+    <h1>League Table</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th> Player </th>
+                <th> Points </th>
+                <th> Goals Scored </th>
+                <th> Goals Conceded </th>
+                <th> Wins </th>
+                <th> Losses </th>
+                <th> Calculated Points </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for player in players %}
+                <tr>
+                    <td> {{ player.user.username|capfirst }} </td>
+                    <td> {{ player.points }} </td>
+                    {% comment %} {% with stats=player.game_stats %} {% endcomment %}
+                        <td> {{ player.goals_scored }} </td>
+                        <td> {{ player.goals_conceded }} </td>
+                        <td> {{ player.wins }} </td>
+                        <td> {{ player.losses }} </td>
+                        <td> {{ player.points }} </td>
+                    {% comment %} {% endwith %} {% endcomment %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h1> Game Results </h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th> Player 1 </th>
+                <th> Goals </th>
+                <th> Player 2 </th>
+                <th> Goals </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for game in results %}
+                <tr>
+                    {% for player in game.players.all %}
+                        <td> {{ player.user.username|capfirst }} </td>
+                        {% with teams=game.teams.all %}
+                            <td>
+                            {% ifequal teams.0.player player%}
+                                {{ teams.0.goals_scored }}
+                            {% else %}
+                                {{ teams.1.goals_scored }}
+                            {% endifequal %}
+                            </td>
+                        {% endwith %}
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table> 
+{% endblock %}
